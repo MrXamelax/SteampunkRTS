@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using System;
 
 //Photon Launcher, mainly copy pasted from the official tutorial.
 //Note on the logics: We attempt to join a random room before creating our own with a name. 
@@ -12,9 +13,9 @@ using UnityEngine.UI;
 public class Launcher : MonoBehaviourPunCallbacks
 {
     #region Public Fields
-
-    public string roomName = "Totally Balanced Room";
+    public string roomName = "1v1CTK";
     public string sceneToLoadAfterConnect = "Playground";
+    public string customRoomName;
 
     #endregion
 
@@ -71,11 +72,17 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Debug.Log("OnConnectedToMaster() was called by PUN");
             // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
-            PhotonNetwork.JoinRandomRoom();
+            if(!(customRoomName == null || customRoomName == ""))
+                PhotonNetwork.JoinRoom(customRoomName);
+            else
+                PhotonNetwork.JoinRandomRoom();
+
             isConnecting = false;
         }
         else Debug.Log("OnConnectedToMaster fired without users intend.");
     }
+
+
 
     //called when we disconnect for any reason
     public override void OnDisconnected(DisconnectCause cause)
@@ -86,15 +93,32 @@ public class Launcher : MonoBehaviourPunCallbacks
         controlPanel.SetActive(true);
     }
 
-    //called when we cant join a random room
-    //if this fails, we create a room with <roomName>
+    //called when we cant join a specific room
+    //if this fails, we create a room with <roomName>, or go back to laucher if room full
     //(this will nearly always fail and basically works as a connection test)
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+        Debug.Log("No random room available, so we create one.");
+        // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
+
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+    }
+
+    //called when we cant join a random room
+    //if this fails, we create a room with <roomName>
+    //(this will nearly always fail and basically works as a connection test)
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("["+returnCode+ "]Can't join room " + roomName + ", cause " + message + "\nCalling: PhotonNetwork.CreateRoom");
 
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom});
+        PhotonNetwork.CreateRoom(customRoomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom, IsVisible = false});
+    }
+
+    //when we finally manage to join a room...
+    public override void OnCreatedRoom()
+    {
+        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
     //when we finally manage to join a room...
@@ -113,6 +137,25 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel(sceneToLoadAfterConnect);
             Debug.Log("Loaded the Level "+ sceneToLoadAfterConnect);
         }
+    }
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        if(!(customRoomName == null || customRoomName == ""))
+        {
+            //TODO let the player know that the specific room is full
+            isConnecting = false;
+            progressLabel.SetActive(false);
+            controlPanel.SetActive(true);
+            return;
+        }
+        Debug.Log(message);
+        int roomNumber = 0;
+        try {
+            roomNumber = Int32.Parse(roomName.Substring(roomName.Length - 1)) + 1;
+        }
+        catch (FormatException) { }
+        roomName = roomName + roomNumber.ToString();
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom});
     }
 
     #endregion
@@ -140,6 +183,21 @@ public class Launcher : MonoBehaviourPunCallbacks
 
             PhotonNetwork.GameVersion = gameVersion;
         }
+    }
+
+    /// <summary>
+    /// Sets the id of the room
+    /// </summary>
+    /// <param name="value">The name of the Room</param>
+    public void SetRoomName(string value)
+    {
+        // #Important
+        if (string.IsNullOrEmpty(value))
+        {
+            Debug.Log("Room ID is null or empty, use default room Name: " + roomName);
+            return;
+        }
+        customRoomName = value;
     }
 
     #endregion
