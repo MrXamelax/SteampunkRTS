@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class GameController : MonoBehaviour
     public Vector2 levelPositionUL = new Vector2(); // Level position upper left
     public Vector2 levelPositionBR = new Vector2(); // Level position bottom right
 
+    public GameObject controlledUnit;
 
 
     void Start()
@@ -24,9 +26,54 @@ public class GameController : MonoBehaviour
     void Update()
     {
         MoveCamera();
+        ControlUnits();
     }
 
-    void MoveCamera()
+    #region UnitControl
+
+    void ControlUnits()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            // TODO add drag and drop rectangle mark option
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+            if (controlledUnit != null && hit.collider?.tag != "Controllable")
+            {
+                controlledUnit.BroadcastMessage("DeselectMe");
+                controlledUnit = null;
+                return;
+            }
+            if (hit.collider?.tag == "Controllable" && //it only makes sense to select controllable objects
+                    hit.transform.gameObject != controlledUnit && //we dont want to select the same thing to prevent side effects
+                    hit.transform.gameObject.GetComponent<PhotonView>().IsMine) //only select if its OUR unit
+            {
+                Debug.Log("object to mark: " + hit.transform.gameObject);
+                    //´TODO Check if is in gorup of selected units 
+                if (controlledUnit) controlledUnit.BroadcastMessage("DeselectMe"); //if something else was selected, deselect it
+                controlledUnit = hit.transform.gameObject;
+                controlledUnit.BroadcastMessage("SelectMe");
+            }
+            //}
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+            // you can also only accept hits to some layer
+            //  and put your selectable units in this layer
+            if (hit && controlledUnit) 
+            {
+                controlledUnit.BroadcastMessage("receiveCommand", hit);
+            }
+        }
+    }
+        #endregion
+
+        #region PlayerMovement
+
+        void MoveCamera()
     {
         // init new coords for moving the camera
         float moveX = cam.transform.position.x;
@@ -111,4 +158,6 @@ public class GameController : MonoBehaviour
     {
         return cam.transform.position.y + cam.orthographicSize < levelPositionUL.y;
     }
+
+    # endregion
 }
