@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
+    [Tooltip("The prefab to use for representing a coal mine")]
+    public GameObject coalMinePrefab;
+
     #endregion
 
     #region Unity Callbacks
@@ -41,12 +44,15 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
             //in the case of our CGD game, "player" is our army
-            
+
+            PhotonNetwork.Instantiate(this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0,0,0), 0);
+
             //spawn position depends on when we join the game. adjust position and roation accordingly
             if(PhotonNetwork.CurrentRoom.PlayerCount == 1) //if we are the first one to enter, we spawn our army on the left side
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0,0,0), 0);
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0,180,0), 0);
+
         }
     }
 

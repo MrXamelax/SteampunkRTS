@@ -319,6 +319,8 @@ MonoBehaviour:
   eventLabel: {fileID: 324275132}
   playerPrefab: {fileID: 1683520279283109506, guid: b0d621c0f6d00bd4f93f88d1d9df8b7b,
     type: 3}
+  coalMinePrefab: {fileID: 7207817634684822692, guid: fd4cac458fb13b540b058e9b41ba9393,
+    type: 3}
 --- !u!4 &428537430
 Transform:
   m_ObjectHideFlags: 0
@@ -1922,10 +1924,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9218859849826746110, guid: fd4cac458fb13b540b058e9b41ba9393,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7207817634684822690, guid: fd4cac458fb13b540b058e9b41ba9393,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.24
+      value: 17.89
       objectReference: {fileID: 0}
     - target: {fileID: 7207817634684822690, guid: fd4cac458fb13b540b058e9b41ba9393,
         type: 3}

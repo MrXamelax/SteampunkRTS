@@ -11,8 +11,13 @@ public class Mine : MonoBehaviour {
     [Range(-500, 500)][SerializeField] int ownershipPoints;
     [SerializeField] int fogOfWar;
     private bool down = true;
-    //private int unitsMaster = 0;
-    //private int unitsClient = 0;
+    [SerializeField] int unitsMaster = 0;
+    [SerializeField] int unitsClient = 0;
+    private PhotonView pv;
+
+    private void Awake() {
+        pv = this.gameObject.GetComponent<PhotonView>();
+    }
 
     void Start() {
 
@@ -32,9 +37,19 @@ public class Mine : MonoBehaviour {
     //private void 
     
     private void OnTriggerEnter2D(Collider2D col) {
-        Debug.Log("Kollision, mein Freund!");
-        //if (col.GetComponent<PhotonView>().Owner) Debug.LogWarning("Meins!");
-        //else Debug.LogWarning("Nicht meins!");
+        if (!pv.Owner.IsMasterClient) return;
+            Debug.Log("Kollision, mein Freund!");
+            if (col.gameObject.tag.Equals("Controllable")) {
+                if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
+                    Debug.LogWarning("Meins!");
+                    unitsMaster++;
+                } else {
+                    Debug.LogWarning("Nicht meins!");
+                    unitsClient++;
+                }
+            } else {
+                Debug.LogWarning(this.gameObject.name + "[" + this.gameObject.GetInstanceID() + "] collided with " + col.gameObject.name + "[" + col.gameObject.GetInstanceID() + "]");
+            }
     }
     
     /*
