@@ -44,7 +44,7 @@ public class EF_WD40Mk2 : MonoBehaviour
             //attackTarget = _hit.collider.gameObject;
             //issueAttack();
         }
-
+        Debug.Log(_hit);
         //attackTarget = null;
         Pview.RPC("moveTo", RpcTarget.All, _hit.point);
     }
