@@ -48,8 +48,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             //TODO: Spawn for both players the main building on the spawn vectors from the level .. or set the membership to its owner
 
             // only for test
-            if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0,0,0), 0);
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+            }
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0,180,0), 0);
         }
