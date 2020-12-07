@@ -46,8 +46,13 @@ public class EF_WD40Mk2 : MonoBehaviour
         }
 
         //attackTarget = null;
+        Pview.RPC("moveTo", RpcTarget.All, _hit.point);
+    }
 
-        agent.SetDestination(_hit.point);
+    [PunRPC]
+    public void moveTo(Vector2 _destination)
+    {
+        agent.SetDestination(_destination);
         agent.isStopped = false;
     }
 }

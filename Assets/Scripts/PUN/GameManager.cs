@@ -51,13 +51,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
             }
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0,180,0), 0);
