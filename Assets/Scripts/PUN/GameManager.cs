@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        //set opticals 
         roomNameLabel.text = "Connected to room: " + PhotonNetwork.CurrentRoom.Name;
         
         Instance = this;
@@ -41,18 +40,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
+            Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene().name);
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            //in the case of our CGD game, "player" is our army
 
             PhotonNetwork.Instantiate(this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0,0,0), 0);
 
-            //spawn position depends on when we join the game. adjust position and roation accordingly
-            if(PhotonNetwork.CurrentRoom.PlayerCount == 1) //if we are the first one to enter, we spawn our army on the left side
+            //TODO: Spawn for both players the main building on the spawn vectors from the level .. or set the membership to its owner
+
+            // only for test
+            if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0,0,0), 0);
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
                 PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0,180,0), 0);
-
         }
     }
 

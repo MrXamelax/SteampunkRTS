@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         Debug.unityLogger.Log("Camera Distance: " + -cam.transform.position.z);
     }
 
@@ -44,12 +44,13 @@ public class GameController : MonoBehaviour
                 controlledUnit = null;
                 return;
             }
+            Debug.Log(hit.collider?.tag == "Controllable" + " , " + (hit.transform?.gameObject != controlledUnit) + " , " +( hit.transform?.gameObject.GetComponent<PhotonView>().IsMine));
             if (hit.collider?.tag == "Controllable" && //it only makes sense to select controllable objects
                     hit.transform.gameObject != controlledUnit && //we dont want to select the same thing to prevent side effects
                     hit.transform.gameObject.GetComponent<PhotonView>().IsMine) //only select if its OUR unit
             {
                 Debug.Log("object to mark: " + hit.transform.gameObject);
-                    //´TODO Check if is in gorup of selected units 
+                    //TODO: Check if is in gorup of selected units 
                 if (controlledUnit) controlledUnit.BroadcastMessage("DeselectMe"); //if something else was selected, deselect it
                 controlledUnit = hit.transform.gameObject;
                 controlledUnit.BroadcastMessage("SelectMe");
