@@ -14,13 +14,13 @@ public class GameController : MonoBehaviour
     public Vector2 levelPositionUL = new Vector2(); // Level position upper left
     public Vector2 levelPositionBR = new Vector2(); // Level position bottom right
 
-    public GameObject controlledUnit;
+    public List<GameObject> controlledUnits;
 
 
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Confined;
-        Debug.unityLogger.Log("Camera Distance: " + -cam.transform.position.z);
+        if(!Debug.isDebugBuild)
+            Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()
@@ -38,35 +38,35 @@ public class GameController : MonoBehaviour
             // TODO add drag and drop rectangle mark option
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-            if (controlledUnit != null && hit.collider?.tag != "Controllable")
+            if (controlledUnits.Count != 0 && hit.collider?.tag != "Controllable")
             {
-                controlledUnit.BroadcastMessage("DeselectMe");
-                controlledUnit = null;
+                controlledUnits.ForEach((unit) => unit.BroadcastMessage("DeselectMe"));
+                controlledUnits.Clear();
                 return;
             }
-            Debug.Log(hit.collider?.tag == "Controllable" + " , " + (hit.transform?.gameObject != controlledUnit) + " , " +( hit.transform?.gameObject.GetComponent<PhotonView>().IsMine));
             if (hit.collider?.tag == "Controllable" && //it only makes sense to select controllable objects
-                    hit.transform.gameObject != controlledUnit && //we dont want to select the same thing to prevent side effects
+                    !controlledUnits.Contains(hit.transform.gameObject) && //we dont want to select the same thing to prevent side effects
                     hit.transform.gameObject.GetComponent<PhotonView>().IsMine) //only select if its OUR unit
             {
-                Debug.Log("object to mark: " + hit.transform.gameObject);
-                    //TODO: Check if is in gorup of selected units 
-                if (controlledUnit) controlledUnit.BroadcastMessage("DeselectMe"); //if something else was selected, deselect it
-                controlledUnit = hit.transform.gameObject;
-                controlledUnit.BroadcastMessage("SelectMe");
+                // Select deselect all units und remove them from list, when clicking on one unit with no shift
+                if (!Input.GetKey(KeyCode.LeftShift) && controlledUnits.Count != 0) { 
+                    controlledUnits.ForEach((unit) => unit.BroadcastMessage("DeselectMe")); 
+                    controlledUnits.Clear();
+                }
+                // Select new unit
+                hit.transform.gameObject.BroadcastMessage("SelectMe");
+                // Add new unit to the controlled units
+                controlledUnits.Add(hit.transform.gameObject);
             }
-            //}
         }
 
         if (Input.GetMouseButtonDown(1))
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-            // you can also only accept hits to some layer
-            //  and put your selectable units in this layer
-            if (hit && controlledUnit) 
+            if (hit && controlledUnits.Count != 0) 
             {
-                controlledUnit.BroadcastMessage("receiveCommand", hit);
+                controlledUnits.ForEach((unit) => unit.BroadcastMessage("receiveCommand", hit));
             }
         }
     }
