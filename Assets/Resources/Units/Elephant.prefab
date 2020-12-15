@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -976316752899382047}
   - component: {fileID: 4087400053556204044}
   m_Layer: 0
-  m_Name: Elefant
+  m_Name: Elephant
   m_TagString: Controllable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,8 +55,7 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
