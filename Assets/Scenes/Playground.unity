@@ -63200,7 +63200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1793089057}
-  cameraMoveSpeed: 0.01
+  cameraMoveSpeed: 0.25
+  scrollingSpeed: 8
   mouseDetect: 10
   levelPositionUL: {x: -72.07, y: 21.65}
   levelPositionBR: {x: 72, y: -21.65}
