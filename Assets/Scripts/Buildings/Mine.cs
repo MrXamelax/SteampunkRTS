@@ -38,17 +38,15 @@ public class Mine : MonoBehaviour {
     
     private void OnTriggerEnter2D(Collider2D col) {
         if (!pv.Owner.IsMasterClient) return;
-            Debug.Log("Kollision, mein Freund!");
+            //Debug.Log("Kollision, mein Freund!");
             if (col.gameObject.tag.Equals("Controllable")) {
                 if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
-                    Debug.LogWarning("Meins!");
+                    //Debug.LogWarning("Meins!");
                     unitsMaster++;
                 } else {
-                    Debug.LogWarning("Nicht meins!");
+                    //Debug.LogWarning("Nicht meins!");
                     unitsClient++;
                 }
-            } else {
-                Debug.LogWarning(this.gameObject.name + "[" + this.gameObject.GetInstanceID() + "] collided with " + col.gameObject.name + "[" + col.gameObject.GetInstanceID() + "]");
             }
     }
     

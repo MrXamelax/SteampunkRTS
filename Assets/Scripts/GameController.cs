@@ -6,7 +6,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] Camera cam;
-    public float cameraMoveSpeed = 0.5f;
+    [SerializeField] float cameraMoveSpeed = 0.5f;
+    [SerializeField] float scrollingSpeed = 2f;
     public float mouseDetect = 10f;
     // Start is called before the first frame update
 
@@ -70,11 +71,12 @@ public class GameController : MonoBehaviour
             }
         }
     }
-        #endregion
 
-        #region PlayerMovement
+    #endregion
 
-        void MoveCamera()
+    #region CameraMovement
+
+    void MoveCamera()
     {
         // init new coords for moving the camera
         float moveX = cam.transform.position.x;
@@ -88,7 +90,7 @@ public class GameController : MonoBehaviour
 
         //Mousewheel input
 
-        float mouseScroll = Input.GetAxis("Mouse ScrollWheel");
+        float mouseScroll = Input.GetAxis("Mouse ScrollWheel") * scrollingSpeed;
 
         cam.orthographicSize -= mouseScroll;
 
@@ -133,7 +135,7 @@ public class GameController : MonoBehaviour
             if ((levelPositionUL.y - cam.transform.position.y + cam.orthographicSize) <= cameraMoveSpeed)
             {
                 moveY += levelPositionUL.y - cam.transform.position.y + cam.orthographicSize;
-                Debug.Log(levelPositionUL.y - cam.transform.position.y + cam.orthographicSize);
+                //Debug.Log(levelPositionUL.y - cam.transform.position.y + cam.orthographicSize);
             }
             else
                 moveY += cameraMoveSpeed;

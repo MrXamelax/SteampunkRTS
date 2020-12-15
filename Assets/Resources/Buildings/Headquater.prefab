@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1351833428084392778}
   - component: {fileID: 4438894265064856452}
   m_Layer: 0
-  m_Name: HQ
+  m_Name: Headquater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
