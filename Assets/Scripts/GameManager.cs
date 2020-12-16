@@ -25,25 +25,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject coalMinePrefab;
 
     #endregion
+        
+    [SerializeField] GameObject headQuaterMaster;
 
     #region Unity Callbacks
 
     void Start()
     {
         roomNameLabel.text = "Connected to room: " + PhotonNetwork.CurrentRoom.Name;
-        
+
         Instance = this;
-        
-        if (playerPrefab == null)
+
+            if (playerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
         }
         else
         {
-            Debug.LogFormat("Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene().name);
-
-            PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0,0,0), 0);
-
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
@@ -51,6 +49,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
                 PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0,180,0), 0);
         }
+        PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0, 0, 0), 0);
+
     }
 
     #endregion
