@@ -24,7 +24,6 @@ public class CameraController : MonoBehaviour
     {
         world = GameManager.Instance.world;
         (levelPositionBottomLeft, levelPositionUpperRight) = world.getCorners();
-        Debug.Log((levelPositionBottomLeft, levelPositionUpperRight));
     }
     // Update is called once per frame
     void Update()
@@ -43,7 +42,7 @@ public class CameraController : MonoBehaviour
 
         float mouseScroll = Input.GetAxis("Mouse ScrollWheel") * scrollingSpeed;
 
-        if (cam.orthographicSize - mouseScroll > 20.0f  || cam.orthographicSize - mouseScroll < 8.0f)
+        if (cam.orthographicSize - mouseScroll > zoomMax || cam.orthographicSize - mouseScroll < zoomMin)
         {
             mouseScroll = 0.0f;
         }
