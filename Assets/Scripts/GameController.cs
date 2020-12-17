@@ -50,7 +50,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Ground"));
 
             if (hit && controlledUnits.Count != 0) 
             {
