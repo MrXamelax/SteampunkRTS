@@ -21,7 +21,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     #region Private Fields
 
     // This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
-    [SerializeField] string gameVersion = "0.11";
+    [SerializeField] string gameVersion = "0.12";
 
 
     private byte maxPlayersPerRoom = 2;

@@ -126,6 +126,7 @@ MonoBehaviour:
   fogOfWar: 5
   unitsMaster: 0
   unitsClient: 0
+  arrowTf: {fileID: 0}
 --- !u!58 &4228460453992462764
 CircleCollider2D:
   m_ObjectHideFlags: 0
