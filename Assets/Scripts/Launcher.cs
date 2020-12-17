@@ -27,10 +27,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     private byte maxPlayersPerRoom = 2;
 
     [Tooltip("The Ui Panel to let the user enter name, connect and play")]
-    [SerializeField] GameObject controlPanel;
+    [SerializeField] protected GameObject controlPanel;
     [Tooltip("The UI Label to inform the user that the connection is in progress")]
-    [SerializeField] GameObject progressLabel;
-
+    [SerializeField] protected GameObject progressLabel;
 
     // Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon,
     // we need to keep track of this to properly adjust the behavior when we receive call back by Photon.

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 using Photon.Pun;
 using Photon.Realtime;
+using Assets.Models;
+using UnityEngine.Tilemaps;
 
 //this class manages the initial setup of the game scene
 public class GameManager : MonoBehaviourPunCallbacks
@@ -24,33 +26,48 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The prefab to use for representing a coal mine")]
     public GameObject coalMinePrefab;
 
-    #endregion
+    public World world;
+    [SerializeField] protected GameObject palyercamera;
+    [SerializeField] protected Tilemap walls;
+    [SerializeField] protected Tilemap ground;
+    [SerializeField] protected TileBase wall;
 
+    #endregion
+      
     #region Unity Callbacks
 
     void Start()
     {
-        roomNameLabel.text = "Connected to room: " + PhotonNetwork.CurrentRoom.Name;
         
         Instance = this;
-        
-        if (playerPrefab == null)
+        world = new World(ground: ground, walls: wall, wall: walls);
+
+        if (PhotonNetwork.IsConnected)
         {
-            Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
+            initOnConnection();
         }
-        else
-        {
-            Debug.LogFormat("Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene().name);
 
-            PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0,0,0), 0);
+        //TODO: set waiting for other player screen if first one
+        palyercamera.SetActive(true);
+    }
 
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+    public void initOnConnection()
+    {
+        roomNameLabel.text = "Connected to room: " + PhotonNetwork.CurrentRoom.Name;
+            if (playerPrefab == null)
             {
-                PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
             }
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2) 
-                PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0,180,0), 0);
-        }
+            else
+{
+    if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+    {
+        PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+    }
+    if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0, 180, 0), 0);
+}
+PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0, 0, 0), 0);
     }
 
     #endregion
