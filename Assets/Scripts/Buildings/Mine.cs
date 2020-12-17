@@ -8,11 +8,14 @@ public class Mine : MonoBehaviour {
 
     // Everything below 0 = own mine
     // Everything above 0 = enemey mine
-    [Range(-500, 500)][SerializeField] int ownershipPoints;
+    [Range(-500, 500)] [SerializeField] int ownershipPoints;
     [SerializeField] int fogOfWar;
     private bool down = true;
     [SerializeField] int unitsMaster = 0;
     [SerializeField] int unitsClient = 0;
+
+    [SerializeField] Transform arrowTf;
+
     private PhotonView pv;
 
     private void Awake() {
@@ -35,26 +38,37 @@ public class Mine : MonoBehaviour {
 
     //[PunRPC]
     //private void 
-    
+
     private void OnTriggerEnter2D(Collider2D col) {
+        // Only cound units on Master Client
         if (!pv.Owner.IsMasterClient) return;
-            //Debug.Log("Kollision, mein Freund!");
-            if (col.gameObject.tag.Equals("Controllable")) {
-                if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
-                    //Debug.LogWarning("Meins!");
-                    unitsMaster++;
-                } else {
-                    //Debug.LogWarning("Nicht meins!");
-                    unitsClient++;
-                }
+        //Debug.Log("Kollision, mein Freund!");
+        if (col.gameObject.tag.Equals("Controllable")) {
+            if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
+                //Debug.LogWarning("Meins!");
+                unitsMaster++;
+            } else {
+                //Debug.LogWarning("Nicht meins!");
+                unitsClient++;
             }
+        }
     }
-    
-    /*
-    private void OnTriggerEnter(Collider col) {
-        Debug.Log("Kollision, mein Freund!");
-       // if (col.GetComponent<PhotonView>().Owner.IsMasterClient) Debug.LogWarning("Meins!");
-       // else Debug.LogWarning("Nicht meins!");
+
+    private void OnTriggerExit2D(Collider2D col) {
+        // Only count units on Master Client
+        if (!pv.Owner.IsMasterClient) return;
+
+        // Only checks objects, that are controllable by players
+        if (col.gameObject.tag.Equals("Controllable")) {
+
+            // If it is your Unit, your count is now 1 less
+            if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
+                unitsMaster--;
+
+            // If not, your opponent has now 1 less
+            } else {
+                unitsClient--;
+            }
+        }
     }
-    */
 }

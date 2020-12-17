@@ -5,6 +5,10 @@ using UnityEngine;
 public class Marker : MonoBehaviour
 {
     Renderer myRenderer;
+    [SerializeField] Color colorMaster;
+    [SerializeField] Color colorClient;
+
+
     // Start is called before the first frame update
     void Start()
     {
