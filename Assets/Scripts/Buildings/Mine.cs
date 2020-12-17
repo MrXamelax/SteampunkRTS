@@ -46,10 +46,10 @@ public class Mine : MonoBehaviour {
         if (col.gameObject.tag.Equals("Controllable")) {
             if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
                 //Debug.LogWarning("Meins!");
-                unitsMaster++;
+                updateUnits(1, 'm');
             } else {
                 //Debug.LogWarning("Nicht meins!");
-                unitsClient++;
+                updateUnits(1, 'c');
             }
         }
     }
@@ -63,16 +63,19 @@ public class Mine : MonoBehaviour {
 
             // If it is your Unit, your count is now 1 less
             if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
-                unitsMaster--;
+                updateUnits(-1, 'm');
 
                 // If not, your opponent has now 1 less
             } else {
-                unitsClient--;
+                updateUnits(-1, 'c');
             }
-
-
-
         }
+    }
+
+    [PunRPC]
+    private void updateUnits(int i, char who) {
+        if (who == 'm') unitsMaster += i;
+        if (who == 'c') unitsClient += i;
     }
 
     private void captureCheck () {
