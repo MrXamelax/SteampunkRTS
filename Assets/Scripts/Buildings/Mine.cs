@@ -65,10 +65,18 @@ public class Mine : MonoBehaviour {
             if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
                 unitsMaster--;
 
-            // If not, your opponent has now 1 less
+                // If not, your opponent has now 1 less
             } else {
                 unitsClient--;
             }
+
+
+
         }
     }
+
+    private void captureCheck () {
+        
+    }
+
 }
