@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     #region Unity Callbacks
 
     private void Awake() {
-        spawnPoints = spawnPointsObj.GetComponentsInChildren<Transform>();
+        spawnPoints = spawnPointsObj.GetComponentsInChildren<Transform>(false);
         spawnPointsObj.SetActive(false);
     }
 
