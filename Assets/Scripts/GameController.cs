@@ -81,26 +81,19 @@ public class GameController : MonoBehaviour
         controlledUnits.Clear();
         selectionBox.gameObject.SetActive(false);
 
-        Vector2 min = selectionBox.anchoredPosition - (selectionBox.sizeDelta);
-        Vector2 max = selectionBox.anchoredPosition + (selectionBox.sizeDelta);
+        Vector2 min = playerCam.ScreenToWorldPoint( selectionBox.anchoredPosition - selectionBox.sizeDelta /2);
 
-        Debug.Log(selectionBox.anchoredPosition - (selectionBox.sizeDelta ));
+        Vector2 max = playerCam.ScreenToWorldPoint(selectionBox.anchoredPosition + selectionBox.sizeDelta /2);
 
         List<GameObject> units = GameManager.Instance.units;
-
-
         foreach (GameObject unit in units)
         {
             if (unit.GetPhotonView().IsMine)
-            {
-                Vector3 screenPos = playerCam.ScreenToWorldPoint(unit.transform.position);
-                Debug.Log(screenPos);
-                Debug.Log(min + " | " +  max);
-
-                if(screenPos.x > min.x  && screenPos.x < max.x
+            { 
+                Vector3 screenPos = unit.transform.position;
+                if(screenPos.x > min.x && screenPos.x < max.x
                    && screenPos.y > min.y && screenPos.y < max.y)
                 {
-                    Debug.Log("UNIT INSIDE");
                     controlledUnits.Add(unit);
                     unit.BroadcastMessage("SelectMe");
                 }
