@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -976316752899382047}
   - component: {fileID: 4087400053556204044}
   - component: {fileID: 713195463943298019}
+  - component: {fileID: 2514221082905090979}
   m_Layer: 0
   m_Name: Elephant
   m_TagString: Controllable
@@ -170,6 +171,18 @@ CircleCollider2D:
   m_Offset: {x: 0.6159458, y: 0}
   serializedVersion: 2
   m_Radius: 1.1159458
+--- !u!114 &2514221082905090979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683520279283109506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42eb4ecc3e988ed4cb02c60a0fbe6857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6128942019149930986
 GameObject:
   m_ObjectHideFlags: 0
