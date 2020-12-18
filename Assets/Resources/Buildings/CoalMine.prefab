@@ -127,7 +127,7 @@ MonoBehaviour:
   unitsMaster: 0
   unitsClient: 0
   captureDirection: 0
-  captureRate: 0.2
+  captureRate: 0.1
   arrowTf: {fileID: 1443201269556306008}
   captureBar: {fileID: 696460192303212653}
 --- !u!58 &4228460453992462764

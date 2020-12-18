@@ -14,12 +14,16 @@ public class Mine : MonoBehaviour {
     [SerializeField] float captureDirection = 0;
     [SerializeField] float captureRate = 0.2f;
 
+    private bool isCaptured = false;
+    private bool sendingCoal = false;
+
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
 
     [SerializeField] Transform arrowTf;
     [SerializeField] GameObject captureBar;
     private float captureBarSize = 0;
+    private float captureValue;
 
     private Transform[] barParts;
 
@@ -30,15 +34,42 @@ public class Mine : MonoBehaviour {
         barParts = captureBar.GetComponentsInChildren<Transform>();
 
         for (int i = 1; i < barParts.Length; i++) {
-            captureBarSize += barParts[i].transform.localScale.x;
+            captureBarSize += barParts[i].localScale.x;
         }
+        captureValue = barParts[2].localScale.x/2;
     }
 
     void Start() {
-
+        
     }
 
     void Update() {
+
+        // Coal mine is now captured by a side
+        if (ownershipPoints <= -captureValue || ownershipPoints >= captureValue) {
+            isCaptured = true;
+            if (!sendingCoal) {
+                if (ownershipPoints <= -captureValue) {
+                    StartCoroutine(coalCycle('m'));
+                    Debug.Log("Sending coal to master now.");
+                }
+                if (ownershipPoints >= captureValue) {
+                    StartCoroutine(coalCycle('c'));
+                    Debug.Log("Sending coal to client now.");
+                }
+                sendingCoal = true;
+            }
+        }
+
+        // Coal mine is now neutral
+        if (ownershipPoints < captureValue && ownershipPoints > -captureValue) {
+            isCaptured = false;
+            if (sendingCoal) {
+                Debug.Log("Coal delivery stopped.");
+                sendingCoal = false;
+            }
+            
+        }
 
         if (captureDirection != 0) {
             if (ownershipPoints >= -captureBarSize / 2) {
@@ -110,4 +141,11 @@ public class Mine : MonoBehaviour {
             return;
         }
     }
+
+    IEnumerator coalCycle(char actor) {
+            ResourceManager.Instance.addCoal(100, actor);
+            yield return new WaitForSeconds(2f);
+        if (isCaptured) StartCoroutine(coalCycle(actor));
+    }
+
 }
