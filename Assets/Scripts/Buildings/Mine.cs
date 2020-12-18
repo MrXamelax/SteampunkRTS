@@ -8,12 +8,12 @@ public class Mine : MonoBehaviour {
 
     // Everything below 0 = master mine
     // Everything above 0 = client mine
-    [Range(-1.7f, 1.7f)] [SerializeField] float ownershipPoints;
+    [SerializeField] float ownershipPoints;
     [SerializeField] int fogOfWar;
     //private bool down = true;
     [SerializeField] int unitsMaster = 0;
     [SerializeField] int unitsClient = 0;
-    
+
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
 
@@ -21,25 +21,49 @@ public class Mine : MonoBehaviour {
     [SerializeField] float captureRate = 0.2f;
 
     [SerializeField] Transform arrowTf;
+    [SerializeField] GameObject captureBar;
+    private float captureBarSize = 0;
+
+    private Transform[] barParts;
 
     private PhotonView pv;
 
     private void Awake() {
         pv = this.gameObject.GetComponent<PhotonView>();
+        barParts = captureBar.GetComponentsInChildren<Transform>();
+
+        for (int i = 1; i < barParts.Length; i++) {
+            captureBarSize += barParts[i].transform.localScale.x;
+        }
     }
 
     void Start() {
 
     }
 
+    //&& ownershipPoints <= captureBarSize/2) {
+
     // Update is called once per frame
     void Update() {
 
-        if (captureDirection != 0 && ownershipPoints >= -1.7f && ownershipPoints <= 1.7f) {
-            arrowTf.position += new Vector3 (captureRate*captureDirection*Time.deltaTime, 0, 0);
-            ownershipPoints += captureRate * captureDirection * Time.deltaTime;
+        if (captureDirection != 0) {
+            if (ownershipPoints >= -captureBarSize / 2) {
+                if (ownershipPoints <= captureBarSize / 2) {
+                    arrowTf.position += new Vector3(captureRate * captureDirection * Time.deltaTime, 0, 0);
+                    ownershipPoints += captureRate * captureDirection * Time.deltaTime;
+                } else {
+                    if (captureDirection < 0) {
+                        arrowTf.position += new Vector3(captureRate * captureDirection * Time.deltaTime, 0, 0);
+                        ownershipPoints += captureRate * captureDirection * Time.deltaTime;
+                    }
+                }
+            } else {
+                if (captureDirection > 0) {
+                    arrowTf.position += new Vector3(captureRate * captureDirection * Time.deltaTime, 0, 0);
+                    ownershipPoints += captureRate * captureDirection * Time.deltaTime;
+                }
+            }
         }
-
         //if (ownershipPoints == -10) down = false;
         //if (ownershipPoints == 10) down = true;
 
@@ -103,7 +127,7 @@ public class Mine : MonoBehaviour {
     }
 
     //[PunRPC]
-    private void captureCheck () {
+    private void captureCheck() {
         if (unitsMaster == unitsClient) return;
 
     }

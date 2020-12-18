@@ -129,6 +129,7 @@ MonoBehaviour:
   captureDirection: 0
   captureRate: 0.2
   arrowTf: {fileID: 1443201269556306008}
+  captureBar: {fileID: 696460192303212653}
 --- !u!58 &4228460453992462764
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -342,6 +343,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0bde79e3a56b2846b18378341bca4fd, type: 3}
+--- !u!1 &696460192303212653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3501363452596586005, guid: d0bde79e3a56b2846b18378341bca4fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4124458711670386296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1336069280891925986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3150178561835342746, guid: d0bde79e3a56b2846b18378341bca4fd,
