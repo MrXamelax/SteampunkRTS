@@ -3,20 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager  {
+public class ResourceManager : MonoBehaviour {
 
     public static ResourceManager Instance; //Singleton. To be accessed from everywhere
 
-    /*
-    textM.text = "Coal Master: " + ResourceManager.Instance.getCoal('m');
-    textC.text = "Coal Client: " + ResourceManager.Instance.getCoal('c');
-
-    [SerializeField] Text textM;
-    [SerializeField] Text textC;
-    */
-
-    private int coalMaster = 2500;
-    private int coalClient = 2500;
+    private int coalMaster = 3000;
+    private int coalClient = 1337;
 
     // Start is called before the first frame update
     void Start() {
