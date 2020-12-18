@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     private void Awake() {
         spawnPoints = spawnPointsObj.GetComponentsInChildren<Transform>(false);
+
         spawnPointsObj.SetActive(false);
     }
 
@@ -64,9 +65,9 @@ public class GameManager : MonoBehaviourPunCallbacks {
         } else {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
 
-                Debug.Log("Now spawning " + spawnPoints.Length + " coal mines.");
-                foreach (Transform spawnPoint in spawnPoints) {
-                    PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoint.position, Quaternion.identity);
+                Debug.Log("Now spawning " + (spawnPoints.Length-1) + " coal mines.");
+                for (int i = 1; i < spawnPoints.Length; i++) {
+                        PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
                 }
 
                 PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);

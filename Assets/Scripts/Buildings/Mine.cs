@@ -6,13 +6,19 @@ using UnityEngine;
 public class Mine : MonoBehaviour {
     // Start is called before the first frame update
 
-    // Everything below 0 = own mine
-    // Everything above 0 = enemey mine
-    [Range(-500, 500)] [SerializeField] int ownershipPoints;
+    // Everything below 0 = master mine
+    // Everything above 0 = client mine
+    [Range(-1.7f, 1.7f)] [SerializeField] float ownershipPoints;
     [SerializeField] int fogOfWar;
-    private bool down = true;
+    //private bool down = true;
     [SerializeField] int unitsMaster = 0;
     [SerializeField] int unitsClient = 0;
+    
+    // balancing stuff for later (maybe)
+    //[SerializeField] int maxUnits = 5;
+
+    [SerializeField] float captureDirection = 0;
+    [SerializeField] float captureRate = 0.2f;
 
     [SerializeField] Transform arrowTf;
 
@@ -29,11 +35,16 @@ public class Mine : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        if (ownershipPoints == -500) down = false;
-        if (ownershipPoints == 500) down = true;
+        if (captureDirection != 0 && ownershipPoints >= -1.7f && ownershipPoints <= 1.7f) {
+            arrowTf.position += new Vector3 (captureRate*captureDirection*Time.deltaTime, 0, 0);
+            ownershipPoints += captureRate * captureDirection * Time.deltaTime;
+        }
 
-        if (down) ownershipPoints--;
-        else ownershipPoints++;
+        //if (ownershipPoints == -10) down = false;
+        //if (ownershipPoints == 10) down = true;
+
+        //if (down) ownershipPoints--;
+        //else ownershipPoints++;
     }
 
     //[PunRPC]
@@ -72,14 +83,29 @@ public class Mine : MonoBehaviour {
         }
     }
 
-    [PunRPC]
+    //[PunRPC]
     private void updateUnits(int i, char who) {
         if (who == 'm') unitsMaster += i;
         if (who == 'c') unitsClient += i;
+
+        if (unitsMaster == unitsClient) {
+            captureDirection = 0;
+            return;
+        }
+        if (unitsMaster > unitsClient) {
+            captureDirection = -1;
+            return;
+        }
+        if (unitsMaster < unitsClient) {
+            captureDirection = 1;
+            return;
+        }
     }
 
+    //[PunRPC]
     private void captureCheck () {
-        
+        if (unitsMaster == unitsClient) return;
+
     }
 
 }
