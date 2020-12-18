@@ -4,21 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Mine : MonoBehaviour {
-    // Start is called before the first frame update
 
     // Everything below 0 = master mine
     // Everything above 0 = client mine
     [SerializeField] float ownershipPoints;
     [SerializeField] int fogOfWar;
-    //private bool down = true;
     [SerializeField] int unitsMaster = 0;
     [SerializeField] int unitsClient = 0;
+    [SerializeField] float captureDirection = 0;
+    [SerializeField] float captureRate = 0.2f;
 
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
-
-    [SerializeField] float captureDirection = 0;
-    [SerializeField] float captureRate = 0.2f;
 
     [SerializeField] Transform arrowTf;
     [SerializeField] GameObject captureBar;
@@ -41,9 +38,6 @@ public class Mine : MonoBehaviour {
 
     }
 
-    //&& ownershipPoints <= captureBarSize/2) {
-
-    // Update is called once per frame
     void Update() {
 
         if (captureDirection != 0) {
@@ -64,15 +58,7 @@ public class Mine : MonoBehaviour {
                 }
             }
         }
-        //if (ownershipPoints == -10) down = false;
-        //if (ownershipPoints == 10) down = true;
-
-        //if (down) ownershipPoints--;
-        //else ownershipPoints++;
     }
-
-    //[PunRPC]
-    //private void 
 
     private void OnTriggerEnter2D(Collider2D col) {
         // Only cound units on Master Client
@@ -107,7 +93,6 @@ public class Mine : MonoBehaviour {
         }
     }
 
-    //[PunRPC]
     private void updateUnits(int i, char who) {
         if (who == 'm') unitsMaster += i;
         if (who == 'c') unitsClient += i;
@@ -125,11 +110,4 @@ public class Mine : MonoBehaviour {
             return;
         }
     }
-
-    //[PunRPC]
-    private void captureCheck() {
-        if (unitsMaster == unitsClient) return;
-
-    }
-
 }
