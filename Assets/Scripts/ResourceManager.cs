@@ -7,8 +7,8 @@ public class ResourceManager : MonoBehaviour {
 
     public static ResourceManager Instance; //Singleton. To be accessed from everywhere
 
-    private int coalMaster = 2500;
-    private int coalClient = 2500;
+    private int coalMaster = 3000;
+    private int coalClient = 1337;
 
     // Start is called before the first frame update
     void Start() {

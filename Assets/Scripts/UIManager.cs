@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class UIManager : MonoBehaviour {
     [SerializeField] GameObject buildingMenu;
@@ -23,7 +24,8 @@ public class UIManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        coalAmount.text = "C: " + ResourceManager.Instance.getCoal('m');
+        if(PhotonNetwork.IsMasterClient) coalAmount.text = ResourceManager.Instance.getCoal('m').ToString();
+        else coalAmount.text = ResourceManager.Instance.getCoal('c').ToString();
     }
 
     public void openBuildingMenu() {
