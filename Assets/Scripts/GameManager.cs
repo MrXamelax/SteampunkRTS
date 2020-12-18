@@ -9,6 +9,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Assets.Models;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 //this class manages the initial setup of the game scene
 public class GameManager : MonoBehaviourPunCallbacks {
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     [SerializeField] protected TileBase wall;
     [SerializeField] GameObject spawnPointsObj;
 
+    public List<GameObject> units = new List<GameObject>();
     private Transform[] spawnPoints;
 
     #endregion
@@ -58,27 +60,36 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     }
 
-    public void initOnConnection() {
+    public void initOnConnection()
+    {
         roomNameLabel.text = "Connected to room: " + PhotonNetwork.CurrentRoom.Name;
-        if (playerPrefab == null) {
+        if (playerPrefab == null)
+        {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
-        } else {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
+        }
+        else
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
 
-                Debug.Log("Now spawning " + (spawnPoints.Length-1) + " coal mines.");
-                for (int i = 1; i < spawnPoints.Length; i++) {
-                        PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
+                Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
+                for (int i = 1; i < spawnPoints.Length; i++)
+                {
+                    PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
                 }
-
-                PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(-5f, 1f, 0f), Quaternion.Euler(0, 0, 0), 0);
+                SpawnUnit(playerPrefab, new Vector3(-5f, 1f, 0f));
             }
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-                PhotonNetwork.Instantiate("Units/" + this.playerPrefab.name, new Vector3(5f, 1f, 0f), Quaternion.Euler(0, 180, 0), 0);
+                SpawnUnit(playerPrefab, new Vector3(5f, 1f, 0f));
         }
         //PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0, 0, 0), 0);
     }
-
     #endregion
+
+    void SpawnUnit(GameObject prefab, Vector3 spawnPosition)
+    {
+        PhotonNetwork.Instantiate("Units/" + prefab.name, spawnPosition, Quaternion.identity, 0);
+    }
 
     #region Photon Callbacks
 
