@@ -9,4 +9,9 @@ public class Unit : MonoBehaviour, IPunInstantiateMagicCallback
     {
         GameManager.Instance.units.Add(this.gameObject);
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.units.Remove(this.gameObject);
+    }
 }
