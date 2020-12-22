@@ -24,15 +24,15 @@ public class Elefant : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        //agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     private void Update()
     {
+        // TODO: check if moved 1 second already 
         if (agent.velocity.sqrMagnitude > 0 && agent.remainingDistance <= agent.stoppingDistance)
         {
             agent.isStopped = true;
-            agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         }
     }
 
