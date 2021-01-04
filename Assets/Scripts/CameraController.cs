@@ -41,6 +41,10 @@ public class CameraController : MonoBehaviour
             return;
 
         float mouseScroll = Input.GetAxis("Mouse ScrollWheel") * scrollingSpeed;
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float width = cam.orthographicSize * Screen.width / Screen.height;
+        float height = cam.orthographicSize;
 
         if (cam.orthographicSize - mouseScroll > zoomMax || cam.orthographicSize - mouseScroll < zoomMin)
         {
@@ -49,35 +53,22 @@ public class CameraController : MonoBehaviour
 
         cam.orthographicSize -= mouseScroll;
 
-        if (!IsNotOnBottom())
-        {
-            if (!IsNotOnTop())
-                cam.orthographicSize += mouseScroll;
-            moveY -= mouseScroll < 0 ? mouseScroll : 0;
-        }
+        moveY += getScrollFactor(transform.position.y, mouseScroll, height, levelPositionBottomLeft.y, levelPositionUpperRight.y);
+        moveX += getScrollFactor(transform.position.x, mouseScroll, width, levelPositionBottomLeft.x, levelPositionUpperRight.x);
 
-        if (!IsNotOnTop())
-        {
-            if (!IsNotOnBottom())
-                cam.orthographicSize += mouseScroll;
-            moveY += mouseScroll < 0 ? mouseScroll : 0;
-        }
-
-        float verticalInput = Input.GetAxisRaw("Vertical");
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float xSize = cam.orthographicSize * Screen.width / Screen.height;
+        
 
         cameraMoveSpeed = cam.orthographicSize / (movementSpeed * 10);
 
         // Left
         if (horizontalInput < 0f || (xPos >= 0 && xPos <= mouseDetect))
         {
-            moveX = getOversethendes(levelPositionBottomLeft.x, moveX, -xSize, -cameraMoveSpeed);
+            moveX = getOversethendes(levelPositionBottomLeft.x, moveX, -width, -cameraMoveSpeed);
         }
         // Right
         else if (horizontalInput > 0f || (xPos <= Screen.width && xPos >= Screen.width - mouseDetect))
         {
-            moveX = getOversethendes(levelPositionUpperRight.x, moveX, xSize, cameraMoveSpeed);
+            moveX = getOversethendes(levelPositionUpperRight.x, moveX, width, cameraMoveSpeed);
         }
         // Up
         if ((verticalInput > 0f || (yPos <= Screen.height && yPos >= Screen.height - mouseDetect)))
@@ -100,6 +91,20 @@ public class CameraController : MonoBehaviour
             return max - size;
         return position + step;
     }
+
+    private float getScrollFactor(float position, float value, float size, float minPosition, float maxPosition)
+    {
+        if (position - size + value <= minPosition)
+        {
+            return -(value < 0 ? value : 0);
+        }
+        if (position + size - value >= maxPosition)
+        {
+            return value < 0 ? value : 0;
+        }
+        return 0;
+    }
+
     private bool IsNotOnBottom()
     {
         return cam.transform.position.y - cam.orthographicSize > levelPositionBottomLeft.y;

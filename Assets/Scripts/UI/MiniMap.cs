@@ -2,76 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 public class MiniMap : MonoBehaviour
 {
-	//attach this script to the camera
-
 	[SerializeField] protected Camera cam; //for raycast instead of using Camera.main
 	[SerializeField] protected GameObject camToMove; // the gameobject the camera is attached to
 	[SerializeField] protected LayerMask mask; //set to your ground layer you want the raycast to hit
 	[SerializeField] protected float lineWidth = 3f;
-	RaycastHit hit;
-	Ray ray;
-	Vector3 movePoint;
-	float YPos;
+
 	float camWidth;
 	float camHeight;
 	Vector2 minMapPosBottomLeft;
 	Vector2 minMapPosUpperRight;
-	float miniMapCamRes;
-
-	float camToMovRes;
+	Rect camRect;
 	RectTransform thisRect;
+
     private void Start()
     {
 		thisRect = GetComponent<RectTransform>();
-
-		miniMapCamRes = 1.0f * cam.pixelWidth / cam.pixelHeight;
-		camToMovRes = 1.0f * Screen.width / Screen.height;
+		camRect = camToMove.GetComponent<Camera>().rect;
 
 		// position of MiniMap in UI
 		minMapPosBottomLeft = thisRect.anchoredPosition - thisRect.sizeDelta / 2;
-		minMapPosUpperRight = thisRect.anchoredPosition  + thisRect.sizeDelta / 2;
-
-
-		// Camera Size of playercamera in minimapcam View
-
-		Vector2 playerCamOnMiniCam = cam.WorldToScreenPoint(camToMove.transform.position);
-		Debug.Log(playerCamOnMiniCam);
-		camWidth = camToMove.GetComponent<Camera>().orthographicSize * Screen.width / Screen.height * cam.pixelWidth /camToMove.GetComponent<Camera>().pixelWidth;
-		camHeight = camToMove.GetComponent<Camera>().orthographicSize * cam.pixelHeight / camToMove.GetComponent<Camera>().pixelHeight;
-
-		Debug.Log("playercam width: " + camWidth + ", height: " + camHeight);
+		minMapPosUpperRight = thisRect.anchoredPosition + thisRect.sizeDelta / 2;
+	
 	}
 
     void Update()
 	{
+		//playerCamOnMiniCamPosition = cam.WorldToScreenPoint(camToMove.transform.position);
 		if (IspointerOverUiObject())
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				Vector2 input = Input.mousePosition / 2;
+				Vector2 input = Input.mousePosition * cam.pixelWidth / (minMapPosUpperRight.x - minMapPosBottomLeft.x);
 				// Clicked on MiniMap UI ?
 
-				Debug.Log(input);
-				Debug.Log(cam.pixelWidth + "+ " + cam.pixelHeight);
+				camWidth = camRect.width * camToMove.GetComponent<Camera>().orthographicSize * Screen.width / Screen.height;
+				camHeight = camRect.height * camToMove.GetComponent<Camera>().orthographicSize;
 
-				if (input.x > minMapPosUpperRight.x || input.y > minMapPosUpperRight.y)
-					return;
+				input.x = clampCoord(input.x, cam.pixelWidth, 0, camWidth*2);
+				input.y = clampCoord(input.y, cam.pixelHeight, 0, camHeight*2);
 
-				input.x = input.x < camWidth ? camWidth
-                    : input.x > cam.pixelWidth - camWidth ? cam.pixelWidth - camWidth
-					: input.x;
-
-                input.y = input.y < camHeight ? camHeight
-					: input.y > cam.pixelHeight - camHeight ? cam.pixelHeight - camHeight
-                    : input.y;
-
-
-                Vector3 newCameraPosition = cam.ScreenToWorldPoint(new Vector3(input.x, input.y, cam.transform.position.z));
-
-				camToMove.transform.position = newCameraPosition;
+				camToMove.transform.position = cam.ScreenToWorldPoint(new Vector3(input.x, input.y, cam.transform.position.z));
 			}
 			if (Input.GetMouseButtonDown(1))
 			{
@@ -79,6 +53,18 @@ public class MiniMap : MonoBehaviour
 			}
 		}
 
+	}
+
+    private void OnEnable()
+    {
+		RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
+	}
+
+    private float clampCoord(float initialValue, float maxValue,float minValue, float size)
+    {
+		return initialValue < minValue + size ? minValue + size
+			: initialValue > maxValue - size ? maxValue - size
+			: initialValue;
 	}
 
 	//this function dectects clicks on ui objects
@@ -91,7 +77,13 @@ public class MiniMap : MonoBehaviour
 		return result.Count > 0;
 	}
 
-    private void OnPostRender()
+	private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
+	{
+		Debug.Log("rendern");
+		OnPostRender();
+	}
+
+	private void OnPostRender()
     {
         Vector2 camPos = cam.transform.position;
 
@@ -101,6 +93,8 @@ public class MiniMap : MonoBehaviour
         float maxX = camPos.y + cam.orthographicSize * Screen.width / Screen.height;
         float maxY = camPos.y + cam.orthographicSize;
 
+
+		Debug.Log(minX + " | " + minY + " | " + maxX + " | " + maxY);
         GL.PushMatrix();
         {
             GL.LoadOrtho();

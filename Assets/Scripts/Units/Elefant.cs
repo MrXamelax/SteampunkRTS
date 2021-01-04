@@ -10,7 +10,8 @@ public class Elefant : MonoBehaviour
     [NonSerialized] public PhotonView Pview;
 
     NavMeshAgent agent;
-
+    [SerializeField] protected SpriteRenderer spriterenderer;
+    float stopCooldown = 0;
 
     private void Awake()
     {
@@ -29,11 +30,17 @@ public class Elefant : MonoBehaviour
 
     private void Update()
     {
-        // TODO: check if moved 1 second already 
-        if (agent.velocity.sqrMagnitude > 0 && agent.remainingDistance <= agent.stoppingDistance)
+        if(stopCooldown > 0 )
+            stopCooldown -= Time.deltaTime;
+        if (stopCooldown <= 0 && agent.velocity.sqrMagnitude > 0 && agent.remainingDistance <= agent.stoppingDistance)
         {
             agent.isStopped = true;
-        }
+        } 
+
+        if (agent.pathEndPosition.x > transform.position.x)
+            spriterenderer.flipX = false;
+        else
+            spriterenderer.flipX = true;
     }
 
     public void receiveCommand(RaycastHit2D _hit)
@@ -54,6 +61,7 @@ public class Elefant : MonoBehaviour
     public void moveTo(Vector2 _destination)
     {
         agent.SetDestination(_destination);
+        stopCooldown = 1f;
         agent.isStopped = false;
     }
 }
