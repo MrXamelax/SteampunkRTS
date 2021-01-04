@@ -77,7 +77,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 {
                     PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
                 }
-                SpawnUnit(playerPrefab, new Vector3(-5f, 1f, 0f));
+                for(int i = 0; i < 5; i ++)
+                    SpawnUnit(playerPrefab, new Vector3(-1.5f*i, 1f, 0f));
             }
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
                 SpawnUnit(playerPrefab, new Vector3(5f, 1f, 0f));
