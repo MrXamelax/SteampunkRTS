@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Controllable
   - Walkable
+  - Ignored
   layers:
   - Default
   - TransparentFX

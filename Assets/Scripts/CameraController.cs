@@ -24,10 +24,16 @@ public class CameraController : MonoBehaviour
     {
         world = GameManager.Instance.world;
         (levelPositionBottomLeft, levelPositionUpperRight) = world.getCorners();
+
+
+
     }
     // Update is called once per frame
     void Update()
-    {
+    {  
+        // Do nothing when windows is not focused
+        if (!Cursor.visible || !screenRect.Contains(Input.mousePosition))
+            return;
         // init new coords for moving the camera
         float moveX = cam.transform.position.x;
         float moveY = cam.transform.position.y;
@@ -36,15 +42,15 @@ public class CameraController : MonoBehaviour
         float xPos = Input.mousePosition.x;
         float yPos = Input.mousePosition.y;
 
-        // Do nothing when windows is not focused
-        if (!Cursor.visible || !screenRect.Contains(Input.mousePosition))
-            return;
-
+        //Get Input
         float mouseScroll = Input.GetAxis("Mouse ScrollWheel") * scrollingSpeed;
         float verticalInput = Input.GetAxisRaw("Vertical");
         float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        //Get Camera size
         float width = cam.orthographicSize * Screen.width / Screen.height;
         float height = cam.orthographicSize;
+
 
         if (cam.orthographicSize - mouseScroll > zoomMax || cam.orthographicSize - mouseScroll < zoomMin)
         {
@@ -53,8 +59,8 @@ public class CameraController : MonoBehaviour
 
         cam.orthographicSize -= mouseScroll;
 
-        moveY += getScrollFactor(transform.position.y, mouseScroll, height, levelPositionBottomLeft.y, levelPositionUpperRight.y);
-        moveX += getScrollFactor(transform.position.x, mouseScroll, width, levelPositionBottomLeft.x, levelPositionUpperRight.x);
+        moveY = getScrollFactor(transform.position.y, mouseScroll, height, levelPositionBottomLeft.y, levelPositionUpperRight.y);
+        moveX = getScrollFactor(transform.position.x, mouseScroll, width, levelPositionBottomLeft.x, levelPositionUpperRight.x);
 
         
 
@@ -92,17 +98,17 @@ public class CameraController : MonoBehaviour
         return position + step;
     }
 
-    private float getScrollFactor(float position, float value, float size, float minPosition, float maxPosition)
+    private float getScrollFactor(float position, float scroll, float size, float minPosition, float maxPosition)
     {
-        if (position - size + value <= minPosition)
+        if (position - size + scroll <= minPosition)
         {
-            return -(value < 0 ? value : 0);
+            return minPosition + size - ((scroll < 0 ? scroll : 0));
         }
-        if (position + size - value >= maxPosition)
+        if (position + size - scroll >= maxPosition)
         {
-            return value < 0 ? value : 0;
+            return maxPosition - size + (scroll < 0 ? scroll : 0);
         }
-        return 0;
+        return position;
     }
 
     private bool IsNotOnBottom()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour
 {
@@ -26,9 +27,13 @@ public class GameController : MonoBehaviour
 
     void ControlUnits()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
+            
             boxStartPos = Input.mousePosition;
+            if (IspointerOverUiObject())
+                return;
             // TODO add drag and drop rectangle mark option
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
@@ -66,6 +71,8 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
+            if (IspointerOverUiObject())
+                return;
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Ground"));
 
             if (hit && controlledUnits.Count != 0)
@@ -112,4 +119,16 @@ public class GameController : MonoBehaviour
         selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         selectionBox.anchoredPosition = boxStartPos + new Vector2(width / 2, height / 2);
     }
+
+    //this function dectects clicks on ui objects
+    private bool IspointerOverUiObject()
+    {
+        PointerEventData EventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        EventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> result = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(EventDataCurrentPosition, result);
+        result.RemoveAll((r) => r.gameObject.tag == "Ignored");
+        return result.Count > 0;
+    }
 }
+

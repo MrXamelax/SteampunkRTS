@@ -20,8 +20,8 @@ public class Mine : MonoBehaviour {
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
 
-    [SerializeField] Transform arrowTf;
-    [SerializeField] GameObject captureBar;
+    [SerializeField] protected Transform arrowTf;
+    [SerializeField] protected GameObject captureBar;
     private float captureBarSize = 0;
     private float captureValue;
 

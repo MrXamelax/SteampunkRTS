@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
-
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
+﻿
+using Assets.Models;
 using Photon.Pun;
 using Photon.Realtime;
-using Assets.Models;
-using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 //this class manages the initial setup of the game scene
-public class GameManager : MonoBehaviourPunCallbacks {
+public class GameManager : MonoBehaviourPunCallbacks
+{
     #region Public Fields
     public static GameManager Instance; //Singleton. To be accessed from everywhere
 
@@ -31,7 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks {
     [SerializeField] protected Tilemap walls;
     [SerializeField] protected Tilemap ground;
     [SerializeField] protected TileBase wall;
-    [SerializeField] GameObject spawnPointsObj;
+    [SerializeField] protected GameObject spawnPointsObj;
 
     public List<GameObject> units = new List<GameObject>();
     private Transform[] spawnPoints;
@@ -40,18 +38,21 @@ public class GameManager : MonoBehaviourPunCallbacks {
 
     #region Unity Callbacks
 
-    private void Awake() {
+    private void Awake()
+    {
         spawnPoints = spawnPointsObj.GetComponentsInChildren<Transform>(false);
 
         spawnPointsObj.SetActive(false);
     }
 
-    void Start() {
+    void Start()
+    {
 
         Instance = this;
         world = new World(ground: ground, walls: wall, wall: walls);
 
-        if (PhotonNetwork.IsConnected) {
+        if (PhotonNetwork.IsConnected)
+        {
             initOnConnection();
         }
 
@@ -77,8 +78,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
                 {
                     PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
                 }
-                for(int i = 0; i < 5; i ++)
-                    SpawnUnit(playerPrefab, new Vector3(-1.5f*i, 1f, 0f));
+                for (int i = 0; i < 5; i++)
+                    SpawnUnit(playerPrefab, new Vector3(-1.5f * i, 1f, 0f));
             }
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
                 SpawnUnit(playerPrefab, new Vector3(5f, 1f, 0f));
@@ -97,13 +98,15 @@ public class GameManager : MonoBehaviourPunCallbacks {
     /// <summary>
     /// Called when the local player left the room. We need to load the launcher scene.
     /// </summary>
-    public override void OnLeftRoom() {
+    public override void OnLeftRoom()
+    {
         //Scene 0 = the Launcher Scene
         SceneManager.LoadScene(0);
     }
 
     //update optical indicators when player enters the room
-    public override void OnPlayerEnteredRoom(Player other) {
+    public override void OnPlayerEnteredRoom(Player other)
+    {
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
 
         eventLabel.text = "A Player named " + other.NickName + " joined the room.";
@@ -111,7 +114,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
     }
 
     //update optical indicators when player leavs the room
-    public override void OnPlayerLeftRoom(Player other) {
+    public override void OnPlayerLeftRoom(Player other)
+    {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
 
         eventLabel.text = "A Player named " + other.NickName + " left the room.";
@@ -122,7 +126,8 @@ public class GameManager : MonoBehaviourPunCallbacks {
     #region Public Methods
 
     // Leave the Room, called by Leave Button, or after match has ended maybe ?
-    public void LeaveRoom() {
+    public void LeaveRoom()
+    {
         PhotonNetwork.LeaveRoom();
         //this gives us the "OnLeftRoom" callback, whose behaviour we specified above
     }
