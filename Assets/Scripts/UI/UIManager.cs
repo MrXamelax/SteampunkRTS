@@ -3,88 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
+using System.Linq;
 
-public class UIManager : MonoBehaviour {
-    [SerializeField] protected GameObject buildingMenu;
-    [SerializeField] protected GameObject unitMenu;
-    [SerializeField] protected GameObject breedMenu;
-    [SerializeField] protected GameObject factoryMenu;
-    [SerializeField] protected GameObject mineMenu;
-
+public class UIManager : MonoBehaviour
+{
+    [SerializeField] protected List<GameObject> menus;
     [SerializeField] protected Text coalAmount;
+    private Text roomname;
 
-    // Start is called before the first frame update
-    void Start() {
-        buildingMenu.SetActive(false);
-        unitMenu.SetActive(false);
-        breedMenu.SetActive(false);
-        factoryMenu.SetActive(false);
-        mineMenu.SetActive(false);
+    void Start()
+    {
+        menus.ForEach((m) => m.SetActive(false));
     }
 
-    // Update is called once per frame
-    void Update() {
-        if(PhotonNetwork.IsMasterClient) coalAmount.text = ResourceManager.Instance.getCoal('m').ToString();
+    void Update()
+    {
+        if (PhotonNetwork.IsMasterClient) coalAmount.text = ResourceManager.Instance.getCoal('m').ToString();
         else coalAmount.text = ResourceManager.Instance.getCoal('c').ToString();
     }
 
-    public void openBuildingMenu() {
-        if (!buildingMenu.activeSelf) {
-            buildingMenu.SetActive(true);
-            mineMenu.SetActive(false);
-            breedMenu.SetActive(false);
-            factoryMenu.SetActive(false);
-            unitMenu.SetActive(false);
-        } else {
-            buildingMenu.SetActive(false);
+    public void openMenu(GameObject menu)
+    {
+        menus.ForEach((m) =>
+        {
+            if (m.name != menu.name || menu.activeSelf)
+                m.SetActive(false);
+            else
+                m.SetActive(true);
         }
-    }
-
-    public void openUnitMenu() {
-        if (!unitMenu.activeSelf) {
-            unitMenu.SetActive(true);
-            buildingMenu.SetActive(false);
-            breedMenu.SetActive(false);
-            factoryMenu.SetActive(false);
-            mineMenu.SetActive(false);
-        } else {
-            unitMenu.SetActive(false);
-        }
-    }
-
-    public void openMineMenu() {
-        if (!mineMenu.activeSelf) {
-            mineMenu.SetActive(true);
-            buildingMenu.SetActive(false);
-            breedMenu.SetActive(false);
-            factoryMenu.SetActive(false);
-            unitMenu.SetActive(false);
-        } else {
-            mineMenu.SetActive(false);
-        }
-    }
-
-    public void openBreedMenu() {
-        if (!breedMenu.activeSelf) {
-            mineMenu.SetActive(false);
-            buildingMenu.SetActive(false);
-            breedMenu.SetActive(true);
-            factoryMenu.SetActive(false);
-            unitMenu.SetActive(false);
-        } else {
-            breedMenu.SetActive(false);
-        }
-    }
-
-    public void openFactoryMenu() {
-        if (!factoryMenu.activeSelf) {
-            mineMenu.SetActive(false);
-            buildingMenu.SetActive(false);
-            breedMenu.SetActive(false);
-            factoryMenu.SetActive(true);
-            unitMenu.SetActive(false);
-        } else {
-            factoryMenu.SetActive(false);
-        }
+        );
     }
 }

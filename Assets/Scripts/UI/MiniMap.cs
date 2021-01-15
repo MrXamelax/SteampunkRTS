@@ -38,6 +38,8 @@ public class MiniMap : MonoBehaviour
 			{
 				Vector2 input = Input.mousePosition * cam.pixelWidth / (minMapPosUpperRight.x - minMapPosBottomLeft.x);
 				// Clicked on MiniMap UI ?
+				if (minMapPosUpperRight.x < Input.mousePosition.x || minMapPosUpperRight.y < Input.mousePosition.y)
+					return;
 
 				camWidth = camRect.width * camToMove.GetComponent<Camera>().orthographicSize * Screen.width / Screen.height;
 				camHeight = camRect.height * camToMove.GetComponent<Camera>().orthographicSize;

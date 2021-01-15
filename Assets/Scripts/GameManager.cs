@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void initOnConnection()
     {
-        roomNameLabel.text = "Connected to room: " + PhotonNetwork.CurrentRoom.Name;
+        roomNameLabel.text = PhotonNetwork.CurrentRoom.Name;
         if (playerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);

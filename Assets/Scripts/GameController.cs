@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class GameController : MonoBehaviour
 {
     public List<GameObject> controlledUnits;
-    
+
     public static GameController Instance;
 
     [SerializeField] protected Camera playerCam;
@@ -30,19 +30,19 @@ public class GameController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            
-            boxStartPos = Input.mousePosition;
             if (IspointerOverUiObject())
                 return;
-            // TODO add drag and drop rectangle mark option
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            boxStartPos = Input.mousePosition;
 
+            // TODO add drag and drop rectangle mark option
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity);
             if (controlledUnits.Count != 0 && hit.collider?.tag != "Controllable")
             {
                 controlledUnits.ForEach((unit) => unit.BroadcastMessage("DeselectMe"));
                 controlledUnits.Clear();
                 return;
             }
+
             if (hit.collider?.tag == "Controllable" && //it only makes sense to select controllable objects
                     !controlledUnits.Contains(hit.transform.gameObject) && //we dont want to select the same thing to prevent side effects
                     hit.transform.gameObject.GetComponent<PhotonView>().IsMine) //only select if its OUR unit
@@ -62,19 +62,25 @@ public class GameController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            UpdateSelection(Input.mousePosition);
+            if (!IspointerOverUiObject())
+                UpdateSelection(Input.mousePosition);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            ReleaseSelectionBox();
+            if (Vector2.Distance(boxStartPos, Input.mousePosition) > 1.75f) 
+                ReleaseSelectionBox();
         }
         if (Input.GetMouseButtonDown(1))
         {
-            if (IspointerOverUiObject())
-                return;
+
+
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Ground"));
 
+            //TODO IF HIT IS ON MINIMAP -> Send units
+
+            if (IspointerOverUiObject())
+                return;
             if (hit && controlledUnits.Count != 0)
             {
                 controlledUnits.ForEach((unit) => unit.BroadcastMessage("receiveCommand", hit));
@@ -88,17 +94,17 @@ public class GameController : MonoBehaviour
         controlledUnits.Clear();
         selectionBox.gameObject.SetActive(false);
 
-        Vector2 min = playerCam.ScreenToWorldPoint( selectionBox.anchoredPosition - selectionBox.sizeDelta /2);
+        Vector2 min = playerCam.ScreenToWorldPoint(selectionBox.anchoredPosition - selectionBox.sizeDelta / 2);
 
-        Vector2 max = playerCam.ScreenToWorldPoint(selectionBox.anchoredPosition + selectionBox.sizeDelta /2);
+        Vector2 max = playerCam.ScreenToWorldPoint(selectionBox.anchoredPosition + selectionBox.sizeDelta / 2);
 
         List<GameObject> units = GameManager.Instance.units;
         foreach (GameObject unit in units)
         {
             if (unit.GetPhotonView().IsMine)
-            { 
+            {
                 Vector3 screenPos = unit.transform.position;
-                if(screenPos.x > min.x && screenPos.x < max.x
+                if (screenPos.x > min.x && screenPos.x < max.x
                    && screenPos.y > min.y && screenPos.y < max.y)
                 {
                     controlledUnits.Add(unit);
