@@ -1,20 +1,21 @@
 ﻿using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour
 {
     public List<GameObject> controlledUnits;
-
     public static GameController Instance;
 
     [SerializeField] protected Camera playerCam;
     public RectTransform selectionBox;
     Vector2 boxStartPos;
+
+    private Utils utils;
+
     void Start()
     {
+        utils = GetComponent<Utils>();
         Instance = this;
         if (!Debug.isDebugBuild)
             Cursor.lockState = CursorLockMode.Confined;
@@ -30,7 +31,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (IspointerOverUiObject())
+            if (utils.IspointerOverUiObject())
                 return;
             boxStartPos = Input.mousePosition;
 
@@ -62,7 +63,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if (!IspointerOverUiObject())
+            if (!utils.IspointerOverUiObject())
                 UpdateSelection(Input.mousePosition);
         }
 
@@ -79,7 +80,7 @@ public class GameController : MonoBehaviour
 
             //TODO IF HIT IS ON MINIMAP -> Send units
 
-            if (IspointerOverUiObject())
+            if (utils.IspointerOverUiObject())
                 return;
             if (hit && controlledUnits.Count != 0)
             {
@@ -124,17 +125,6 @@ public class GameController : MonoBehaviour
 
         selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         selectionBox.anchoredPosition = boxStartPos + new Vector2(width / 2, height / 2);
-    }
-
-    //this function dectects clicks on ui objects
-    private bool IspointerOverUiObject()
-    {
-        PointerEventData EventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        EventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        List<RaycastResult> result = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(EventDataCurrentPosition, result);
-        result.RemoveAll((r) => r.gameObject.tag == "Ignored");
-        return result.Count > 0;
     }
 }
 
