@@ -17,9 +17,11 @@ public class MiniMap : MonoBehaviour
 	Vector2 minMapPosUpperRight;
 	Rect camRect;
 	RectTransform thisRect;
+	Utils utils;
 
     private void Start()
     {
+		utils = GetComponent<Utils>();
 		thisRect = GetComponent<RectTransform>();
 		camRect = camToMove.GetComponent<Camera>().rect;
 
@@ -32,7 +34,7 @@ public class MiniMap : MonoBehaviour
     void Update()
 	{
 		//playerCamOnMiniCamPosition = cam.WorldToScreenPoint(camToMove.transform.position);
-		if (IspointerOverUiObject())
+		if (utils.IspointerOverUiObject())
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
@@ -67,16 +69,6 @@ public class MiniMap : MonoBehaviour
 		return initialValue < minValue + size ? minValue + size
 			: initialValue > maxValue - size ? maxValue - size
 			: initialValue;
-	}
-
-	//this function dectects clicks on ui objects
-	private bool IspointerOverUiObject()
-	{
-		PointerEventData EventDataCurrentPosition = new PointerEventData(EventSystem.current);
-		EventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-		List<RaycastResult> result = new List<RaycastResult>();
-		EventSystem.current.RaycastAll(EventDataCurrentPosition, result);
-		return result.Count > 0;
 	}
 
 	private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)

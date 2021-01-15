@@ -24,9 +24,6 @@ public class CameraController : MonoBehaviour
     {
         world = GameManager.Instance.world;
         (levelPositionBottomLeft, levelPositionUpperRight) = world.getCorners();
-
-
-
     }
     // Update is called once per frame
     void Update()
