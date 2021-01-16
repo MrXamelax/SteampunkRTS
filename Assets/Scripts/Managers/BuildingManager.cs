@@ -11,6 +11,8 @@ public class BuildingManager : MonoBehaviour {
 
     [SerializeField] protected GameObject factoryGo;
     [SerializeField] protected GameObject forgeGo;
+    [SerializeField] protected GameObject buildMasterGo;
+    [SerializeField] protected GameObject buildClientGo;
     [SerializeField] protected Camera cam;
 
     private void Update() {
@@ -21,11 +23,10 @@ public class BuildingManager : MonoBehaviour {
             if (Input.GetMouseButtonDown(0)) {
                 Debug.Log("Fabrik hinstellen!");
                 bool isPlaceable = factoryGo.GetComponent<BuildingHover>().getPlaceble();
-                print(isPlaceable);
-                if (isPlaceable) {
-                    isFactory = false;
-                    factoryGo.SetActive(false);
-                    PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity); }
+                isFactory = false;
+                factoryGo.SetActive(false);
+                if (isPlaceable) PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
+                if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(false);
             }
         }
 
@@ -34,21 +35,25 @@ public class BuildingManager : MonoBehaviour {
             forgeGo.transform.position = new Vector3(forgeGo.transform.position.x, forgeGo.transform.position.y, 0);
             if (Input.GetMouseButtonDown(0)) {
                 Debug.Log("Brutschmiede hinstellen!");
+                bool isPlaceable = forgeGo.GetComponent<BuildingHover>().getPlaceble();
                 forgeGo.SetActive(false);
                 isForge = false;
-                if(forgeGo.GetComponent<BuildingHover>().getPlaceble()) PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                if (isPlaceable) PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(false);
             }
         }
     }
 
     public void buildFactory() {
         Debug.LogWarning("baue Fabrik bitte!");
+        if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(true);
         isFactory = true;
         factoryGo.SetActive(true);
     }
 
     public void buildForge() {
         Debug.LogWarning("baue Brutschmiede bitte!");
+        if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(true);
         isForge = true;
         forgeGo.SetActive(true);
     }
