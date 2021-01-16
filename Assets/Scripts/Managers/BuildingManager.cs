@@ -20,9 +20,12 @@ public class BuildingManager : MonoBehaviour {
             factoryGo.transform.position = new Vector3(factoryGo.transform.position.x, factoryGo.transform.position.y, 0);
             if (Input.GetMouseButtonDown(0)) {
                 Debug.Log("Fabrik hinstellen!");
-                factoryGo.SetActive(false);
-                isFactory = false;
-                if(factoryGo.GetComponent<BuildingHover>().getPlaceble()) PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
+                bool isPlaceable = factoryGo.GetComponent<BuildingHover>().getPlaceble();
+                print(isPlaceable);
+                if (isPlaceable) {
+                    isFactory = false;
+                    factoryGo.SetActive(false);
+                    PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity); }
             }
         }
 

@@ -6,12 +6,12 @@ public class BuildingHover: MonoBehaviour {
 
     private bool placeble = true;
 
+    private int buildingsBehind = 0;
+
     private void OnTriggerEnter2D(Collider2D col) {
-        Debug.Log("Hallo");
         if (col.gameObject.CompareTag("Building")) {
-            Debug.Log("Gebäude!");
             GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.red);
-            placeble = false;
+            buildingsBehind += 1;
         }
     }
 
@@ -19,13 +19,19 @@ public class BuildingHover: MonoBehaviour {
         Debug.Log("Tschüssi");
         if (col.gameObject.CompareTag("Building")) {
             Debug.Log("Nix!");
-            GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.white);
-            placeble = true;
+            buildingsBehind -= 1;
+            if(buildingsBehind == 0)
+                GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.white);
+            if (buildingsBehind < 0)
+            {
+                Debug.LogError("int buildingsbehind is below 0, What happened?\n set buildingsbehind 0");
+                buildingsBehind = 0;
+            }
         }
     }
 
     public bool getPlaceble() {
-        return placeble;
+        return buildingsBehind == 0;
     }
 
 }
