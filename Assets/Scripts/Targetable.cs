@@ -28,4 +28,5 @@ public class Targetable : MonoBehaviour
 
         Destroy(this.gameObject);
     }
+
 }

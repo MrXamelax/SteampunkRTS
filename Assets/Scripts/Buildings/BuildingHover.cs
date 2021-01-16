@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildingHover: MonoBehaviour {
-
-    private bool placeble = true;
-
     private int buildingsBehind = 0;
 
     private void OnTriggerEnter2D(Collider2D col) {
