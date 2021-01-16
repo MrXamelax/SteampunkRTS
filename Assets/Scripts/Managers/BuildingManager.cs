@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour {
 
     private bool isFactory = false;
     private bool isForge = false;
+    public bool placeble = true;
 
     [SerializeField] GameObject factoryGo;
     [SerializeField] GameObject forgeGo;
@@ -21,7 +22,7 @@ public class BuildingManager : MonoBehaviour {
                 Debug.Log("Fabrik hinstellen!");
                 factoryGo.SetActive(false);
                 isFactory = false;
-                PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
+                if(factoryGo.GetComponent<BuildingHover>().getPlaceble()) PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
             }
         }
 
@@ -32,7 +33,7 @@ public class BuildingManager : MonoBehaviour {
                 Debug.Log("Brutschmiede hinstellen!");
                 forgeGo.SetActive(false);
                 isForge = false;
-                PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                if(forgeGo.GetComponent<BuildingHover>().getPlaceble()) PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
             }
         }
     }
@@ -48,4 +49,5 @@ public class BuildingManager : MonoBehaviour {
         isForge = true;
         forgeGo.SetActive(true);
     }
+
 }
