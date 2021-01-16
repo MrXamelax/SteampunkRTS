@@ -27,6 +27,7 @@ public class BuildingManager : MonoBehaviour {
                 factoryGo.SetActive(false);
                 if (isPlaceable) PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
                 if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(false);
+                if (!PhotonNetwork.IsMasterClient) buildClientGo.SetActive(false);
             }
         }
 
@@ -40,6 +41,7 @@ public class BuildingManager : MonoBehaviour {
                 isForge = false;
                 if (isPlaceable) PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
                 if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(false);
+                if (!PhotonNetwork.IsMasterClient) buildClientGo.SetActive(false);
             }
         }
     }
@@ -47,6 +49,7 @@ public class BuildingManager : MonoBehaviour {
     public void buildFactory() {
         Debug.LogWarning("baue Fabrik bitte!");
         if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(true);
+        if (!PhotonNetwork.IsMasterClient) buildClientGo.SetActive(true);
         isFactory = true;
         factoryGo.SetActive(true);
     }
@@ -54,6 +57,7 @@ public class BuildingManager : MonoBehaviour {
     public void buildForge() {
         Debug.LogWarning("baue Brutschmiede bitte!");
         if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(true);
+        if (!PhotonNetwork.IsMasterClient) buildClientGo.SetActive(true);
         isForge = true;
         forgeGo.SetActive(true);
     }
