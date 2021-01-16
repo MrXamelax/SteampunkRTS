@@ -30,9 +30,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] protected Tilemap ground;
     [SerializeField] protected TileBase wall;
     [SerializeField] protected GameObject spawnPointsObj;
+    [SerializeField] protected GameObject headquaterMaster;
+    [SerializeField] protected GameObject headquaterClient;
 
     public List<GameObject> units = new List<GameObject>();
     private Transform[] spawnPoints;
+    private string gameResult;
 
     #endregion
 
@@ -72,7 +75,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
-
+                PhotonNetwork.Instantiate("Buildings/" + "HeadquaterMaster", headquaterMaster.transform.position, Quaternion.identity);
+                headquaterMaster.SetActive(false);
                 Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
                 for (int i = 1; i < spawnPoints.Length; i++)
                 {
@@ -82,7 +86,11 @@ public class GameManager : MonoBehaviourPunCallbacks
                     SpawnUnit(playerPrefab, new Vector3(-1.5f * i, 1f, 0f));
             }
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            {
+                PhotonNetwork.Instantiate("Buildings/" + "HeadquaterClient", headquaterClient.transform.position, Quaternion.identity);
+                headquaterClient.SetActive(false);
                 SpawnUnit(playerPrefab, new Vector3(5f, 1f, 0f));
+            }
         }
         //PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0, 0, 0), 0);
     }
@@ -95,13 +103,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Photon Callbacks
 
-    /// <summary>
-    /// Called when the local player left the room. We need to load the launcher scene.
-    /// </summary>
     public override void OnLeftRoom()
     {
-        //Scene 0 = the Launcher Scene
-        SceneManager.LoadScene(0);
+        if (gameResult == null)
+            Loadlauncher();
     }
 
     //update optical indicators when player enters the room
@@ -126,10 +131,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Public Methods
 
     // Leave the Room, called by Leave Button, or after match has ended maybe ?
-    public void LeaveRoom()
+    public void LeaveRoom() => PhotonNetwork.LeaveRoom();
+
+    public void Loadlauncher() => SceneManager.LoadScene(0);
+
+    public void GameOver(GameObject destroyed)
     {
+        gameResult = destroyed.GetComponent<PhotonView>().IsMine ? "verloren" : "gewonnen";
+        print(gameResult);
+        UIManager.Instance.showResult(gameResult);
+        Time.timeScale = 0;
         PhotonNetwork.LeaveRoom();
-        //this gives us the "OnLeftRoom" callback, whose behaviour we specified above
     }
     #endregion
 }

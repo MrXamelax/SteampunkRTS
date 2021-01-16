@@ -9,9 +9,9 @@ public class BuildingManager : MonoBehaviour {
     private bool isForge = false;
     public bool placeble = true;
 
-    [SerializeField] GameObject factoryGo;
-    [SerializeField] GameObject forgeGo;
-    [SerializeField] Camera cam;
+    [SerializeField] protected GameObject factoryGo;
+    [SerializeField] protected GameObject forgeGo;
+    [SerializeField] protected Camera cam;
 
     private void Update() {
 

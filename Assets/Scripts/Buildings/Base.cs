@@ -1,18 +1,19 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Base : MonoBehaviour {
-
-    [SerializeField] int hp;
-
-    // Start is called before the first frame update
-    void Start() {
-
+public class Base : MonoBehaviour
+{
+    private PhotonView pview;
+    private void Start()
+    {
+        pview = GetComponent<PhotonView>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V) && !pview.IsMine) GetComponent<PhotonView>().RPC("takeDMG", RpcTarget.All, 5);
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
+    private void OnDestroy() => GameManager.Instance.GameOver(this.gameObject);
 }

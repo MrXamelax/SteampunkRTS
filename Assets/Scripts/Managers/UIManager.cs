@@ -10,11 +10,15 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] protected List<GameObject> menus;
     [SerializeField] protected Text coalAmount;
+    [SerializeField] protected GameObject resultScreen;
     private Text roomname;
+    public static UIManager Instance;
 
     void Start()
     {
+        Instance = this;
         menus.ForEach((m) => m.SetActive(false));
+        resultScreen.SetActive(false);
     }
 
     void Update()
@@ -33,5 +37,12 @@ public class UIManager : MonoBehaviour
                 m.SetActive(true);
         }
         );
+    }
+
+    public void showResult(String gameResult)
+    {
+        print("HAllo ich bin eins UI Managram worken");
+        menus.ForEach((m) => m.SetActive(false));
+        resultScreen.SetActive(true);
     }
 }

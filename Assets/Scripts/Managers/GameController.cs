@@ -126,5 +126,12 @@ public class GameController : MonoBehaviour
         selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         selectionBox.anchoredPosition = boxStartPos + new Vector2(width / 2, height / 2);
     }
+
+    public void removeFromSelection(GameObject unit)
+    {
+        controlledUnits.Remove(unit);
+    }
 }
+
+
 
