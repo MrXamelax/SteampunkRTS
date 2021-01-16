@@ -32,7 +32,7 @@ public class BuildingManager : MonoBehaviour {
                 Debug.Log("Brutschmiede hinstellen!");
                 forgeGo.SetActive(false);
                 isForge = false;
-                //PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
             }
         }
     }
