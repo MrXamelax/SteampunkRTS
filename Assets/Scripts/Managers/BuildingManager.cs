@@ -23,9 +23,15 @@ public class BuildingManager : MonoBehaviour {
             if (Input.GetMouseButtonDown(0)) {
                 Debug.Log("Fabrik hinstellen!");
                 bool isPlaceable = factoryGo.GetComponent<BuildingHover>().getPlaceble();
-                isFactory = false;
                 factoryGo.SetActive(false);
-                if (isPlaceable) PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
+                isFactory = false;
+                if (isPlaceable) {
+                    if (PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrMaster() <= ResourceManager.Instance.getBuildingsMax()) {
+                        PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
+                    }
+                    if (!PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrClient() <= ResourceManager.Instance.getBuildingsCurrClient())
+                        PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
+                }
                 if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(false);
                 if (!PhotonNetwork.IsMasterClient) buildClientGo.SetActive(false);
             }
@@ -39,7 +45,13 @@ public class BuildingManager : MonoBehaviour {
                 bool isPlaceable = forgeGo.GetComponent<BuildingHover>().getPlaceble();
                 forgeGo.SetActive(false);
                 isForge = false;
-                if (isPlaceable) PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                if (isPlaceable) {
+                    if (PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrMaster() <= ResourceManager.Instance.getBuildingsMax()) {
+                        PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                    }
+                    if (!PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrClient() <= ResourceManager.Instance.getBuildingsCurrClient())
+                        PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
+                }
                 if (PhotonNetwork.IsMasterClient) buildMasterGo.SetActive(false);
                 if (!PhotonNetwork.IsMasterClient) buildClientGo.SetActive(false);
             }
