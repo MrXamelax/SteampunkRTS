@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -33,10 +34,25 @@ public class GameController : MonoBehaviour
         {
             if (utils.IspointerOverUiObject())
                 return;
+           
+            // Get the hit in order building -> unit -> ground
+            List<RaycastHit2D> hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity).ToList();
+            RaycastHit2D buildingHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Building"));
+            RaycastHit2D unitHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Controllable"));
+            RaycastHit2D groundHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Walkable"));
+
+            RaycastHit2D hit = buildingHit ? buildingHit : unitHit ? unitHit : groundHit;
+
+            print(hit.collider?.gameObject.name);
+
+            if (hit.collider?.tag == "Building" && hit.transform.gameObject.GetComponent<PhotonView>().IsMine)
+            {
+                hit.collider.gameObject.BroadcastMessage("openMenu");
+            }
+
+
             boxStartPos = Input.mousePosition;
 
-            // TODO add drag and drop rectangle mark option
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity);
             if (controlledUnits.Count != 0 && hit.collider?.tag != "Controllable")
             {
                 controlledUnits.ForEach((unit) => unit.BroadcastMessage("DeselectMe"));
@@ -69,7 +85,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (Vector2.Distance(boxStartPos, Input.mousePosition) > 1.75f) 
+            if (Vector2.Distance(boxStartPos, Input.mousePosition) > 1.75f)
                 ReleaseSelectionBox();
         }
         if (Input.GetMouseButtonDown(1))

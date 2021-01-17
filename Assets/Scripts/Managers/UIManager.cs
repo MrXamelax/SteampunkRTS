@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] protected GameObject resultScreen;
     private Text roomname;
     public static UIManager Instance;
+    [SerializeField] protected GameObject cbyderCooldown;
 
     void Start()
     {
@@ -25,10 +26,16 @@ public class UIManager : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient) coalAmount.text = ResourceManager.Instance.getCoal('m').ToString();
         else coalAmount.text = ResourceManager.Instance.getCoal('c').ToString();
+
+        if (menus.First((m) => m.name == "FactoryMenu").gameObject.activeSelf)
+        {
+
+        }
     }
 
     public void openMenu(GameObject menu)
     {
+        print("try to open menu: " + menu.name);
         menus.ForEach((m) =>
         {
             if (m.name != menu.name || menu.activeSelf)
@@ -37,6 +44,15 @@ public class UIManager : MonoBehaviour
                 m.SetActive(true);
         }
         );
+    }
+
+    public void openFactoryMenu(GameObject factory)
+    {
+        openMenu(menus.First((m) => m.name == "FactoryMenu"));
+    }
+    public void openBreedForgeMenu(GameObject factory)
+    {
+        openMenu(menus.First((m) => m.name == "BreedFactoryMenu"));
     }
 
     public void showResult(String gameResult)
