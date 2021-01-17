@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] protected List<GameObject> menus;
     [SerializeField] protected Text coalAmount;
+    [SerializeField] protected Text coalPerMinute;
     [SerializeField] protected GameObject resultScreen;
     private Text roomname;
     public static UIManager Instance;
@@ -27,11 +28,12 @@ public class UIManager : MonoBehaviour
         if (PhotonNetwork.IsMasterClient) coalAmount.text = ResourceManager.Instance.getCoal('m').ToString();
         else coalAmount.text = ResourceManager.Instance.getCoal('c').ToString();
 
-        if (menus.First((m) => m.name == "FactoryMenu").gameObject.activeSelf)
-        {
+        if (menus.First((m) => m.name == "FactoryMenu").gameObject.activeSelf) {
 
         }
     }
+
+    #region public methods
 
     public void openMenu(GameObject menu)
     {
@@ -61,4 +63,12 @@ public class UIManager : MonoBehaviour
         menus.ForEach((m) => m.SetActive(false));
         resultScreen.SetActive(true);
     }
+
+    public void updMines(byte amount) {
+        print("updating coal screen");
+        coalPerMinute.text = (amount * 100).ToString() + "/s";
+    }
+
+    #endregion
+
 }
