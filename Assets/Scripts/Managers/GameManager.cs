@@ -17,12 +17,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Text roomNameLabel;
     public Text numPlayersLabel;
     public Text eventLabel;
+    public GameObject waitingForPlayer;
 
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
     [Tooltip("The prefab to use for representing a coal mine")]
     public GameObject coalMinePrefab;
+
+    public bool lobbyReady = false;
 
     public World world;
     [SerializeField] protected GameObject palyercamera;
@@ -36,70 +39,62 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<GameObject> units = new List<GameObject>();
     private Transform[] spawnPoints;
     private string gameResult;
-
+    private bool initialized;
     #endregion
 
     #region Unity Callbacks
 
     private void Awake()
     {
+        initialized = false;
         spawnPoints = spawnPointsObj.GetComponentsInChildren<Transform>(false);
-
         spawnPointsObj.SetActive(false);
     }
 
     void Start()
     {
-
+        waitingForPlayer.SetActive(true);
         Instance = this;
         world = new World(ground: ground, walls: wall, wall: walls);
 
-        if (PhotonNetwork.IsConnected)
-        {
-            initOnConnection();
-        }
-
-        //TODO: set waiting for other player screen if first one
-        palyercamera.SetActive(true);
-
+        //if (PhotonNetwork.IsConnected)
+        //{
+        //    initOnConnection();
+        //}
     }
 
-    public void initOnConnection()
+    private void Update()
+    {
+        if (!initialized && PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            SetUp();
+            initialized = true;
+        }
+    }
+
+    public void SetUp()
     {
         roomNameLabel.text = PhotonNetwork.CurrentRoom.Name;
-        if (playerPrefab == null)
+
+        if (PhotonNetwork.IsMasterClient)
         {
-            Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
+            PhotonNetwork.Instantiate("Buildings/" + "Headquatermaster", headquaterMaster.transform.position, Quaternion.identity);
+            headquaterMaster.SetActive(false);
+            Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
+            for (int i = 1; i < spawnPoints.Length; i++)
+            {
+                PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
+            }
         }
         else
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
-            {
-                PhotonNetwork.Instantiate("Buildings/" + "HeadquaterMaster", headquaterMaster.transform.position, Quaternion.identity);
-                headquaterMaster.SetActive(false);
-                Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
-                for (int i = 1; i < spawnPoints.Length; i++)
-                {
-                    PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
-                }
-                for (int i = 0; i < 5; i++)
-                    SpawnUnit(playerPrefab, new Vector3(-1.5f * i, 1f, 0f));
-            }
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-            {
-                PhotonNetwork.Instantiate("Buildings/" + "HeadquaterClient", headquaterClient.transform.position, Quaternion.identity);
-                headquaterClient.SetActive(false);
-                SpawnUnit(playerPrefab, new Vector3(5f, 1f, 0f));
-            }
+            PhotonNetwork.Instantiate("Buildings/" + "HeadquaterClient", headquaterClient.transform.position, Quaternion.identity);
+            headquaterClient.SetActive(false);
         }
-        //PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0, 0, 0), 0);
+        palyercamera.SetActive(true);
+        SetReady();
     }
     #endregion
-
-    void SpawnUnit(GameObject prefab, Vector3 spawnPosition)
-    {
-        PhotonNetwork.Instantiate("Units/" + prefab.name, spawnPosition, Quaternion.identity, 0);
-    }
 
     #region Photon Callbacks
 
@@ -142,6 +137,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         UIManager.Instance.showResult(gameResult);
         Time.timeScale = 0;
         PhotonNetwork.LeaveRoom();
+        lobbyReady = false;
     }
     #endregion
+
+    public void SetReady()
+    {
+        lobbyReady = true;
+        waitingForPlayer.SetActive(false);
+    }
 }

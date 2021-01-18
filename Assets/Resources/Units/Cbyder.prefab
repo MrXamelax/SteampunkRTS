@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: -8415384221724538152}
   - component: {fileID: -2936303473207478512}
   - component: {fileID: 3526711822574993866}
+  - component: {fileID: -8695108218477983538}
+  - component: {fileID: -6696381047947555782}
+  - component: {fileID: -7242681655253768276}
   m_Layer: 0
   m_Name: Cbyder
   m_TagString: Controllable
@@ -133,7 +136,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.424
-  m_Speed: 10
+  m_Speed: 15
   m_Acceleration: 1000
   avoidancePriority: 50
   m_AngularSpeed: 0
@@ -158,6 +161,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriterenderer: {fileID: 3931259999346522525}
+--- !u!114 &-8695108218477983538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6762273480990973903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-6696381047947555782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6762273480990973903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42eb4ecc3e988ed4cb02c60a0fbe6857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7242681655253768276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6762273480990973903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de15f454dc109ea48aac5c06a7681ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorMaster: {r: 0, g: 0, b: 0, a: 0}
+  colorClient: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &6363701581706122309
 PrefabInstance:
   m_ObjectHideFlags: 0

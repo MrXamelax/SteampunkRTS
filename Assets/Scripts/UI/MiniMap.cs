@@ -34,7 +34,7 @@ public class MiniMap : MonoBehaviour
     void Update()
 	{
 		//playerCamOnMiniCamPosition = cam.WorldToScreenPoint(camToMove.transform.position);
-		if (utils.IspointerOverUiObject())
+		if (GameManager.Instance.lobbyReady && utils.IspointerOverUiObject())
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
