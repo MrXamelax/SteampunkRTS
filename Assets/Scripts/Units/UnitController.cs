@@ -10,6 +10,7 @@ public class UnitController : MonoBehaviour
     NavMeshAgent agent;
     [SerializeField] protected SpriteRenderer spriterenderer;
     float stopCooldown = 0;
+    private GameObject target;
 
     private void Awake()
     {
@@ -49,7 +50,8 @@ public class UnitController : MonoBehaviour
         {
             //attackTarget = _hit.collider.gameObject;
             //issueAttack();
-        }
+            Pview.RPC("attack", RpcTarget.All, _hit.collider.gameObject);
+        } else
         //Debug.Log(_hit);
         //attackTarget = null;
         Pview.RPC("moveTo", RpcTarget.All, _hit.point);
@@ -61,6 +63,11 @@ public class UnitController : MonoBehaviour
         agent.SetDestination(_destination);
         stopCooldown = 1f;
         agent.isStopped = false;
+    }
+
+    public void attack(GameObject _target)
+    {
+        target = _target;
     }
 
     private void OnDestroy()

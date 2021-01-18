@@ -9,12 +9,16 @@ using System.Linq;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] protected List<GameObject> menus;
+    [SerializeField] protected List<Text> shopCooldowns;
     [SerializeField] protected Text coalAmount;
     [SerializeField] protected GameObject resultScreen;
-    private Text roomname;
-    public static UIManager Instance;
-    [SerializeField] protected GameObject cbyderCooldown;
+    [SerializeField] protected Text resultText;
 
+
+
+    public static UIManager Instance;
+    private GameObject currentFactory;
+    private GameObject currentBreedForge;
     void Start()
     {
         Instance = this;
@@ -29,7 +33,10 @@ public class UIManager : MonoBehaviour
 
         if (menus.First((m) => m.name == "FactoryMenu").gameObject.activeSelf)
         {
-
+            (string, string) cooldown = currentFactory.GetComponent<Factory>().getCooldown();
+            Text getQueuingCooldown = shopCooldowns.Find((t) => t.name == cooldown.Item1);
+            if(getQueuingCooldown != null)
+                getQueuingCooldown.text = cooldown.Item2;
         }
     }
 
@@ -48,17 +55,33 @@ public class UIManager : MonoBehaviour
 
     public void openFactoryMenu(GameObject factory)
     {
+        currentFactory = factory;
+        shopCooldowns.ForEach((t) => t.text = "");
         openMenu(menus.First((m) => m.name == "FactoryMenu"));
     }
-    public void openBreedForgeMenu(GameObject factory)
+
+    public void BuyFactoryUnitButton(string unitName)
     {
-        openMenu(menus.First((m) => m.name == "BreedFactoryMenu"));
+        Debug.Log("Pressed UnitButton: " + unitName);
+        if(currentFactory.GetComponent<Factory>().timer <= 0 )
+            currentFactory.GetComponent<Factory>().spawnUnit(unitName);
     }
 
-    public void showResult(String gameResult)
+    public void openBreedForgeMenu(GameObject breed)
     {
-        print("HAllo ich bin eins UI Managram worken");
+        currentBreedForge = breed;
+        openMenu(menus.First((m) => m.name == "BreedFactoryMenu"));
+    }
+    public void BuyBreedForgeUnitButton(string unitName)
+    {
+        currentFactory.GetComponent<BreedForge>().spawnUnit(unitName);
+    }
+
+
+    public void showResult(string gameResult)
+    {
         menus.ForEach((m) => m.SetActive(false));
+        resultText.text = "Du hast " + gameResult;
         resultScreen.SetActive(true);
     }
 }

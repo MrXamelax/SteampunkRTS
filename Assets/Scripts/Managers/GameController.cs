@@ -24,7 +24,8 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        ControlUnits();
+        if(GameManager.Instance.lobbyReady)
+            ControlUnits();
     }
 
     void ControlUnits()
@@ -43,13 +44,10 @@ public class GameController : MonoBehaviour
 
             RaycastHit2D hit = buildingHit ? buildingHit : unitHit ? unitHit : groundHit;
 
-            print(hit.collider?.gameObject.name);
-
             if (hit.collider?.tag == "Building" && hit.transform.gameObject.GetComponent<PhotonView>().IsMine)
             {
                 hit.collider.gameObject.BroadcastMessage("openMenu");
             }
-
 
             boxStartPos = Input.mousePosition;
 
