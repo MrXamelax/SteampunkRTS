@@ -12,6 +12,8 @@ public class ResourceManager : MonoBehaviour {
     private int buildingsMax = 4; // TODO: later change to units per Player (upgrades)
     private int buildingsCurrMaster = 1;
     private int buildingsCurrClient = 1;
+    private byte minesMaster;
+    private byte minesClient;
 
     // Start is called before the first frame update
     void Start() {
@@ -22,6 +24,26 @@ public class ResourceManager : MonoBehaviour {
     void Update() {
         
     }
+
+    public int getCoal(char actor) {
+        if (actor == 'm') return this.coalMaster;
+        if (actor == 'c') return this.coalClient;
+        return 0;
+    }
+
+    [PunRPC]
+    public void addCoal(int coal, char actor) {
+        if (actor == 'm') this.coalMaster += coal;
+        if (actor == 'c') this.coalClient += coal;
+    }
+
+    [PunRPC]
+    public void remCoal(int coal, char actor) {
+        if (actor == 'm') this.coalMaster -= coal;
+        if (actor == 'c') this.coalClient -= coal;
+    }
+
+    #region Getter and Setter
 
     public void addBuildingToMaster() {
         this.buildingsCurrMaster++;
@@ -43,21 +65,30 @@ public class ResourceManager : MonoBehaviour {
         return this.buildingsMax;
     }
 
-    public int getCoal(char actor) {
-        if (actor == 'm') return this.coalMaster;
-        if (actor == 'c') return this.coalClient;
-        return 0;
+    public byte getMinesMaster() {
+        return this.minesMaster;
     }
 
-    [PunRPC]
-    public void addCoal(int coal, char actor) {
-        if (actor == 'm') this.coalMaster += coal;
-        if (actor == 'c') this.coalClient += coal;
+    public byte getMinesClient() {
+        return this.minesClient;
     }
 
-    [PunRPC]
-    public void remCoal(int coal, char actor) {
-        if (actor == 'm') this.coalMaster -= coal;
-        if (actor == 'c') this.coalClient -= coal;
+    public void updMines(char sign, char actor) {
+        if (actor == 'm') {
+            if (sign == '+') {
+                minesMaster++;
+            } else if (sign == '-') {
+                minesMaster--;
+            }
+        } else if (actor == 'c') {
+            if (sign == '+') {
+                minesClient++;
+            } else if (sign == '-') {
+                minesClient--;
+            }
+        }
     }
+
+    #endregion
+
 }
