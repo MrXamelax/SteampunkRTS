@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -1241399439863178398}
   - component: {fileID: -294812184885488942}
   - component: {fileID: -3132261445793381038}
+  - component: {fileID: 9088131860864685684}
   m_Layer: 0
   m_Name: Deer
   m_TagString: Controllable
@@ -209,6 +210,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorMaster: {r: 0, g: 0, b: 0, a: 0}
   colorClient: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &9088131860864685684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218041875319932861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1001 &5156869453859950609
 PrefabInstance:
   m_ObjectHideFlags: 0

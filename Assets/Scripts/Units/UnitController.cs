@@ -45,16 +45,18 @@ public class UnitController : MonoBehaviour
     public void receiveCommand(RaycastHit2D _hit)
     {
         //if we hit a controllable unit which does not belong to us, attack it
-        if (_hit.collider.CompareTag("Controllable") && 
-          !_hit.collider.GetComponent<PhotonView>().IsMine) 
+        if (_hit.collider.CompareTag("Controllable") &&
+          !_hit.collider.GetComponent<PhotonView>().IsMine)
         {
             //attackTarget = _hit.collider.gameObject;
             //issueAttack();
             Pview.RPC("attack", RpcTarget.All, _hit.collider.gameObject);
-        } else
-        //Debug.Log(_hit);
-        //attackTarget = null;
-        Pview.RPC("moveTo", RpcTarget.All, _hit.point);
+        }
+        else
+            //Debug.Log(_hit);
+            //attackTarget = null;
+            moveTo(_hit.point);
+        //Pview.RPC("moveTo", RpcTarget.All, _hit.point);
     }
 
     [PunRPC]
