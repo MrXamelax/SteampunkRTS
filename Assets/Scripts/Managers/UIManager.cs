@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
         {
             (string, string) cooldown = currentFactory.GetComponent<Factory>().getCooldown();
             Text getQueuingCooldown = shopCooldowns.Find((t) => t.name == cooldown.Item1);
-            if(getQueuingCooldown != null)
+            if (getQueuingCooldown != null)
                 getQueuingCooldown.text = cooldown.Item2;
         }
     }
@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour
     public void BuyFactoryUnitButton(string unitName)
     {
         Debug.Log("Pressed UnitButton: " + unitName);
-        if(currentFactory.GetComponent<Factory>().timer <= 0 )
+        if (currentFactory.GetComponent<Factory>().timer <= 0)
             currentFactory.GetComponent<Factory>().spawnUnit(unitName);
     }
 
@@ -88,7 +88,8 @@ public class UIManager : MonoBehaviour
         resultScreen.SetActive(true);
     }
 
-    public void updMines(byte amount) {
+    public void updMines(byte amount)
+    {
         print("updating coal screen");
         coalPerMinute.text = (amount * 100).ToString() + "/s";
     }
