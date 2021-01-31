@@ -62,9 +62,12 @@ public class UnitController : MonoBehaviour
     [PunRPC]
     public void moveTo(Vector2 _destination)
     {
-        agent.SetDestination(_destination);
-        stopCooldown = 1f;
-        agent.isStopped = false;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            agent.SetDestination(_destination);
+            stopCooldown = 1f;
+            agent.isStopped = false;
+        }
     }
 
     public void attack(GameObject _target)
