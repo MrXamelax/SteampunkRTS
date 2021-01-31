@@ -16,6 +16,7 @@ public class Mine : MonoBehaviour {
 
     private bool isCaptured = false;
     private bool sendingCoal = false;
+    public int id;
 
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
@@ -48,13 +49,13 @@ public class Mine : MonoBehaviour {
                     StartCoroutine(coalCycle('m'));
                     Debug.Log("Sending coal to master now.");
                     ResourceManager.Instance.updMines('+', 'm');
-                    if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesMaster());
+                    if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMines('m'));
                 }
                 if (ownershipPoints >= captureValue) {
                     StartCoroutine(coalCycle('c'));
                     Debug.Log("Sending coal to client now.");
                     ResourceManager.Instance.updMines('+', 'c');
-                    if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesClient());
+                    if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMines('c'));
                 }
                 sendingCoal = true;
             }
@@ -146,8 +147,7 @@ public class Mine : MonoBehaviour {
         if (isCaptured) StartCoroutine(coalCycle(actor));
         else {
             ResourceManager.Instance.updMines('-', actor);
-            if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesMaster());
-            if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesClient());
+            UIManager.Instance.updMines(ResourceManager.Instance.getMines(actor));
         }
     }
 
