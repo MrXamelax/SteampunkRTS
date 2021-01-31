@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Photon.Pun;
+using System;
 
 public class LoggingManager : MonoBehaviour {
 
@@ -29,7 +30,7 @@ public class LoggingManager : MonoBehaviour {
             actor = 'c';
         }
         Directory.CreateDirectory(Application.streamingAssetsPath + "/Event_Log/");
-        docName = Application.streamingAssetsPath + "/Event_Log/" + player + ".csv";
+        docName = Application.streamingAssetsPath + "/Event_Log/" + PhotonNetwork.LocalPlayer.NickName + "_" + player + "_" + DateTime.Now.ToString("dd.MM.yyyy_HH.mm.ss") + ".csv";
 
         print("Logger starts!");
 
