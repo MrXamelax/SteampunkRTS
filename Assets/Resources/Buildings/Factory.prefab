@@ -50,7 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 40
+  maxHp: 750
+  hpGreenBar: {fileID: 8178064449866005828}
 --- !u!61 &4882702701101129012
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -387,6 +388,12 @@ PrefabInstance:
 --- !u!4 &8998067794076626292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3419411191116883431, guid: cd5aff191371564428f9d4b73d7a007f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6029122123410540691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8178064449866005828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2510172853301081559, guid: cd5aff191371564428f9d4b73d7a007f,
     type: 3}
   m_PrefabInstance: {fileID: 6029122123410540691}
   m_PrefabAsset: {fileID: 0}

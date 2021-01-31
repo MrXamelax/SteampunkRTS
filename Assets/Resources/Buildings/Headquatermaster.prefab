@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 5929651515014890410}
   - component: {fileID: 9187105861767938674}
   - component: {fileID: 4394446923242882942}
+  - component: {fileID: -436977204662576570}
+  - component: {fileID: 672111597048104449}
   m_Layer: 0
   m_Name: Headquatermaster
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  maxHp: 1000
+  hpGreenBar: {fileID: 202475601790364263}
 --- !u!114 &9187105861767938674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +135,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0818fe585c9794097696080dfebb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!70 &-436977204662576570
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8154923805619204271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.24860783, y: -0.8225155}
+  m_Size: {x: 3.3264055, y: 2.1030915}
+  m_Direction: 1
+--- !u!50 &672111597048104449
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8154923805619204271}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &2313366510635261872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143,6 +183,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: hpBarGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2219151510985731146, guid: cd5aff191371564428f9d4b73d7a007f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510172853301081559, guid: cd5aff191371564428f9d4b73d7a007f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3419411191116883431, guid: cd5aff191371564428f9d4b73d7a007f,
         type: 3}
@@ -204,10 +254,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: hpBarRed
       objectReference: {fileID: 0}
+    - target: {fileID: 4863239535833361714, guid: cd5aff191371564428f9d4b73d7a007f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6232230427923710273, guid: cd5aff191371564428f9d4b73d7a007f,
         type: 3}
       propertyPath: m_Name
       value: hpBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6232230427923710273, guid: cd5aff191371564428f9d4b73d7a007f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6588316365083222712, guid: cd5aff191371564428f9d4b73d7a007f,
         type: 3}
@@ -224,6 +284,12 @@ PrefabInstance:
 --- !u!4 &1111978754541320791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3419411191116883431, guid: cd5aff191371564428f9d4b73d7a007f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2313366510635261872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &202475601790364263 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2510172853301081559, guid: cd5aff191371564428f9d4b73d7a007f,
     type: 3}
   m_PrefabInstance: {fileID: 2313366510635261872}
   m_PrefabAsset: {fileID: 0}

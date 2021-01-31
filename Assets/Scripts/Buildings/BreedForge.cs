@@ -9,8 +9,8 @@ class BreedForge : MonoBehaviour{
     public float timer = 0;
     PhotonView pview;
 
-
-    private void Awake() {
+    private void Awake() 
+    {
         if (PhotonNetwork.IsMasterClient) ResourceManager.Instance.addBuildingToMaster();
         if (!PhotonNetwork.IsMasterClient) ResourceManager.Instance.addBuildingToClient();
         pview = GetComponent<PhotonView>();
@@ -35,7 +35,9 @@ class BreedForge : MonoBehaviour{
 
         if (ResourceManager.Instance.buyUnit(name, isMaster ? 'm' : 'c'))
         {
-            UnitManager.Instance.SpawnUnit(isMaster, name);
+            Debug.Log("Unit " + name + " buyed");
+            currentunit = name;
+            timer = 7;
         }
     }
 

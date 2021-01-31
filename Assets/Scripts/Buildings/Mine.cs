@@ -38,11 +38,6 @@ public class Mine : MonoBehaviour {
         }
         captureValue = barParts[2].localScale.x/2;
     }
-
-    void Start() {
-        
-    }
-
     void Update() {
 
         // Coal mine is now captured by a side
@@ -98,13 +93,10 @@ public class Mine : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D col) {
         // Only cound units on Master Client
         if (!pv.Owner.IsMasterClient) return;
-        //Debug.Log("Kollision, mein Freund!");
-        if (col.gameObject.tag.Equals("Controllable")) {
+        if (col.gameObject.tag.Equals("Controllable") && col.gameObject.name.Contains("Cbyder")) {
             if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
-                //Debug.LogWarning("Meins!");
                 updateUnits(1, 'm');
             } else {
-                //Debug.LogWarning("Nicht meins!");
                 updateUnits(1, 'c');
             }
         }
@@ -115,7 +107,9 @@ public class Mine : MonoBehaviour {
         if (!pv.Owner.IsMasterClient) return;
 
         // Only checks objects, that are controllable by players
-        if (col.gameObject.tag.Equals("Controllable")) {
+        Debug.Log(col.gameObject.name);
+
+        if (col.gameObject.tag.Equals("Controllable") && col.gameObject.name.Contains("Cbyder")) {
 
             // If it is your Unit, your count is now 1 less
             if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
@@ -147,7 +141,7 @@ public class Mine : MonoBehaviour {
     }
 
     IEnumerator coalCycle(char actor) {
-            ResourceManager.Instance.addCoal(100, actor);
+            ResourceManager.Instance.addCoal(1, actor);
             yield return new WaitForSeconds(2f);
         if (isCaptured) StartCoroutine(coalCycle(actor));
         else {
