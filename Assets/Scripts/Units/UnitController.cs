@@ -10,6 +10,7 @@ public class UnitController : MonoBehaviour
     public int range = 1;
     public int speed = 1;
     bool attackOnCooldown = false;
+    [SerializeField] protected float attackCooldown = 1f;
 
     public GameObject projectile;
     NavMeshAgent agent;
@@ -57,8 +58,6 @@ public class UnitController : MonoBehaviour
 
     public void receiveCommand(RaycastHit2D _hit)
     {
-        //if we hit a controllable unit which does not belong to us, attack it
-        Debug.Log(_hit.collider.tag);
         if ((_hit.collider.CompareTag("Controllable") || _hit.collider.CompareTag("Building")) &&
           !_hit.collider.GetComponent<PhotonView>().IsMine)
         {
@@ -96,18 +95,20 @@ public class UnitController : MonoBehaviour
             issueAttack();
 
     }
-    //attack constantly while in range (initial function call in Update() )
     void issueAttack()
     {
-        //attack is now on cooldown and can't fire again
         attackOnCooldown = true;
 
-        //spawn projecitile in front of us (and with a bit of offset upwards)
         Vector3 projectileSpawnPos = this.transform.position +
             Vector3.up / 2 + (target.transform.position - this.transform.position).normalized;
-        //instantiate for everybode on the network
-        GameObject projectileClone = PhotonNetwork.Instantiate("Projectiles/" + projectile.name, projectileSpawnPos, Quaternion.identity);
-        projectileClone.BroadcastMessage("attack", target);
+
+      
+        // Attack if have an attack move
+        if (projectile)
+        {
+            GameObject projectileClone = PhotonNetwork.Instantiate("Projectiles/" + projectile.name, projectileSpawnPos, Quaternion.identity);
+            projectileClone.BroadcastMessage("attack", target);
+        }
 
         //start timer to reset cooldown
         StartCoroutine("attackCooldownReset");
@@ -121,7 +122,7 @@ public class UnitController : MonoBehaviour
     //attack will only trigger when cooldown is "false"
     IEnumerator attackCooldownReset()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(attackCooldown);
         attackOnCooldown = false;
     }
 }

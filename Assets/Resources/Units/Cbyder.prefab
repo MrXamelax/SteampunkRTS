@@ -101,11 +101,11 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 1
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0032969718, y: -0.000000030195356}
-  m_Size: {x: 0.9934144, y: 0.50000393}
+  m_Offset: {x: 0.0014499776, y: 0.04247311}
+  m_Size: {x: 0.7828997, y: 0.41506165}
   m_Direction: 1
 --- !u!50 &-8415384221724538152
 Rigidbody2D:
@@ -162,8 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
-  speed: 1
+  range: 0
+  speed: 7
+  attackCooldown: 1
   projectile: {fileID: 0}
   spriterenderer: {fileID: 3931259999346522525}
 --- !u!114 &-8695108218477983538
@@ -242,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
+  maxHp: 10
   hpGreenBar: {fileID: 8828608013468803474}
 --- !u!1001 &6363701581706122309
 PrefabInstance:

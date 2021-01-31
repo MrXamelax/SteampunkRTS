@@ -68,9 +68,7 @@ public class BuildingHover : MonoBehaviour {
     }
 
     private void OnTriggerExit2D(Collider2D col) {
-        Debug.Log("Tschüssi");
         if (col.gameObject.CompareTag("Building")) {
-            Debug.Log("Nix!");
             buildingsBehind -= 1;
             if (buildingsBehind == 0 && buildable)
                 GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.green);

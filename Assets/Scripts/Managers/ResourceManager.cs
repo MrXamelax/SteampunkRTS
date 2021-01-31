@@ -15,17 +15,19 @@ public class ResourceManager : MonoBehaviour
     private byte minesClient;
     [SerializeField] Dictionary<string, int> pricelist = new Dictionary<string, int>();
 
-    private int coalMaster = 100;
-    private int coalClient = 100;
+    private int coalMaster = 125;
+    private int coalClient = 125;
 
     // Start is called before the first frame update
     void Start()
     {
-        pricelist.Add("Deer", 40);
+        pricelist.Add("Deer", 25);
         pricelist.Add("Miner", 50);
-        pricelist.Add("Elephant", 100); 
-        pricelist.Add("Sheep", 20); 
-        pricelist.Add("Cbyder", 100);
+        pricelist.Add("Elephant", 175);
+        pricelist.Add("Sheep", 75);
+        pricelist.Add("Cbyder", 20);
+        pricelist.Add("Factory", 75);
+        pricelist.Add("Breedforge", 50);
         Instance = this;
     }
 
@@ -47,8 +49,8 @@ public class ResourceManager : MonoBehaviour
     public bool buyUnit(string unit, char actor)
     {
         int price = pricelist?[unit] ?? 0;
-        Debug.Log("Try to buy " + unit + " for " + price+ " coal");
-        
+        Debug.Log("Try to buy " + unit + " for " + price + " coal");
+
         if (actor == 'm')
         {
             if (this.coalMaster - price >= 0)
@@ -70,50 +72,32 @@ public class ResourceManager : MonoBehaviour
 
     #region Getter and Setter
 
-    public void addBuildingToMaster() {
-        this.buildingsCurrMaster++;
-    }
+    public void addBuildingToMaster() => this.buildingsCurrMaster++;
 
-    public void addBuildingToClient() {
-        this.buildingsCurrClient++;
-    }
+    public void addBuildingToClient() => this.buildingsCurrClient++;
+    
+    public int getBuildingsCurrMaster() => this.buildingsCurrMaster;
+    
+    public int getBuildingsCurrClient() => this.buildingsCurrClient;
 
-    public int getBuildingsCurrMaster() {
-        return this.buildingsCurrMaster;
-    }
+    public int getBuildingsMax() => this.buildingsMax;
 
-    public int getBuildingsCurrClient() {
-        return this.buildingsCurrClient;
-    }
+    public byte getMinesMaster() => this.minesMaster;
 
-    public int getBuildingsMax() {
-        return this.buildingsMax;
-    }
+    public byte getMinesClient() => this.minesClient;
 
-    public byte getMinesMaster() {
-        return this.minesMaster;
-    }
-
-    public byte getMinesClient() {
-        return this.minesClient;
-    }
-
-    public void updMines(char sign, char actor) {
-        if (actor == 'm') {
-            if (sign == '+') {
-                minesMaster++;
-            } else if (sign == '-') {
-                minesMaster--;
-            }
-        } else if (actor == 'c') {
-            if (sign == '+') {
-                minesClient++;
-            } else if (sign == '-') {
-                minesClient--;
-            }
+    public void updMines(char sign, char actor)
+    {
+        if (actor == 'm')
+        {
+            if (sign == '+') minesMaster++;
+            else if (sign == '-') minesMaster--;
+        }
+        else if (actor == 'c')
+        {
+            if (sign == '+') minesClient++;
+            else if (sign == '-') minesClient--;
         }
     }
-
     #endregion
-
 }

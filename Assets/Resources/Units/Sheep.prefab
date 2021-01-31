@@ -149,9 +149,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.047326088, y: -0.06507349}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.59181356
 --- !u!195 &5807342785183147862
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -163,9 +163,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 10
-  m_Acceleration: 0
+  m_Acceleration: 1000
   avoidancePriority: 50
-  m_AngularSpeed: 1000
+  m_AngularSpeed: 0
   m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -230,9 +230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
-  speed: 1
-  projectile: {fileID: 0}
+  range: 20
+  speed: 5
+  attackCooldown: 10
+  projectile: {fileID: 2744548566864149729, guid: b7270549a98733d4b8e662f326fad12e,
+    type: 3}
   spriterenderer: {fileID: 2744590439783879515}
 --- !u!114 &622805801572867227
 MonoBehaviour:
@@ -273,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
+  maxHp: 25
   hpGreenBar: {fileID: 7993285347418285164}
 --- !u!1001 &5492199416714842555
 PrefabInstance:
