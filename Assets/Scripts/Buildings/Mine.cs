@@ -14,8 +14,6 @@ public class Mine : MonoBehaviour {
     [SerializeField] float captureDirection = 0;
     [SerializeField] float captureRate = 0.2f;
 
-
-    public int ID;
     private bool isCaptured = false;
     private bool sendingCoal = false;
 
@@ -141,8 +139,6 @@ public class Mine : MonoBehaviour {
             return;
         }
     }
-
-    public void setMineID(int ID) => this.ID = ID;
 
     IEnumerator coalCycle(char actor) {
             ResourceManager.Instance.addCoal(1, actor);
