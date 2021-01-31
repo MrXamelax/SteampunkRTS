@@ -9,7 +9,8 @@ using System.Linq;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] protected List<GameObject> menus;
-    [SerializeField] protected List<Text> shopCooldowns;
+    [SerializeField] protected List<Text> factoryShopCooldowns;
+    [SerializeField] protected Text cbyderCooldown;
     [SerializeField] protected Text coalAmount;
     [SerializeField] protected Text coalPerMinute;
     [SerializeField] protected GameObject resultScreen;
@@ -35,9 +36,15 @@ public class UIManager : MonoBehaviour
         if (menus.First((m) => m.name == "FactoryMenu").gameObject.activeSelf)
         {
             (string, string) cooldown = currentFactory.GetComponent<Factory>().getCooldown();
-            Text getQueuingCooldown = shopCooldowns.Find((t) => t.name == cooldown.Item1);
+            Text getQueuingCooldown = factoryShopCooldowns.Find((t) => t.name == cooldown.Item1);
             if (getQueuingCooldown != null)
                 getQueuingCooldown.text = cooldown.Item2;
+        }
+
+        if (menus.First((m) => m.name == "BreedFactoryMenu").gameObject.activeSelf)
+        {
+            (string, string) cooldown = currentBreedForge.GetComponent<Factory>().getCooldown();
+            cbyderCooldown.text = cooldown.Item2;
         }
     }
 
@@ -59,7 +66,7 @@ public class UIManager : MonoBehaviour
     public void openFactoryMenu(GameObject factory)
     {
         currentFactory = factory;
-        shopCooldowns.ForEach((t) => t.text = "");
+        factoryShopCooldowns.ForEach((t) => t.text = "");
         openMenu(menus.First((m) => m.name == "FactoryMenu"));
     }
 
@@ -77,7 +84,7 @@ public class UIManager : MonoBehaviour
     }
     public void BuyBreedForgeUnitButton(string unitName)
     {
-        currentFactory.GetComponent<BreedForge>().spawnUnit(unitName);
+       currentBreedForge.GetComponent<BreedForge>().spawnUnit(unitName);
     }
 
 
@@ -91,7 +98,7 @@ public class UIManager : MonoBehaviour
     public void updMines(byte amount)
     {
         print("updating coal screen");
-        coalPerMinute.text = (amount * 100).ToString() + "/s";
+        coalPerMinute.text = (amount * 30).ToString() + "/ min.";
     }
 
     #endregion

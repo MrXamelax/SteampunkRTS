@@ -56,11 +56,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         waitingForPlayer.SetActive(true);
         Instance = this;
         world = new World(ground: ground, walls: wall, wall: walls);
-
-        //if (PhotonNetwork.IsConnected)
-        //{
-        //    initOnConnection();
-        //}
     }
 
     private void Update()
@@ -130,9 +125,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Loadlauncher() => SceneManager.LoadScene(0);
 
-    public void GameOver(GameObject destroyed)
+    public void GameOver(bool isMine)
     {
-        gameResult = destroyed.GetComponent<PhotonView>().IsMine ? "verloren" : "gewonnen";
+        gameResult = isMine ? "verloren" : "gewonnen";
         print(gameResult);
         UIManager.Instance.showResult(gameResult);
         Time.timeScale = 0;

@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.Instance.lobbyReady)
+        if (GameManager.Instance.lobbyReady)
             ControlUnits();
     }
 
@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
         {
             if (utils.IspointerOverUiObject())
                 return;
-           
+
             // Get the hit in order building -> unit -> ground
             List<RaycastHit2D> hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity).ToList();
             RaycastHit2D buildingHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Building"));
@@ -90,7 +90,14 @@ public class GameController : MonoBehaviour
         {
 
 
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Ground"));
+            //RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Ground"));
+
+            List<RaycastHit2D> hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity).ToList();
+            RaycastHit2D buildingHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Building"));
+            RaycastHit2D unitHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Controllable"));
+            RaycastHit2D groundHit = hits.First();
+
+            RaycastHit2D hit = buildingHit ? buildingHit : unitHit ? unitHit : groundHit;
 
             //TODO IF HIT IS ON MINIMAP -> Send units
 
@@ -98,6 +105,7 @@ public class GameController : MonoBehaviour
                 return;
             if (hit && controlledUnits.Count != 0)
             {
+                Debug.Log(hit.collider.gameObject.name);
                 controlledUnits.ForEach((unit) => unit.BroadcastMessage("receiveCommand", hit));
             }
         }

@@ -1,16 +1,23 @@
 ﻿using Photon.Pun;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class UnitController : MonoBehaviour
 {
     [NonSerialized] public PhotonView Pview;
+    public int range = 1;
+    public int speed = 1;
+    bool attackOnCooldown = false;
+    [SerializeField] protected float attackCooldown = 1f;
 
+    public GameObject projectile;
     NavMeshAgent agent;
     [SerializeField] protected SpriteRenderer spriterenderer;
     float stopCooldown = 0;
     private GameObject target;
+    bool inRange = false;
 
     private void Awake()
     {
@@ -23,6 +30,8 @@ public class UnitController : MonoBehaviour
         // Fix parameters for 2d nav mesh 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        agent.speed = speed;
 
         //agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
@@ -40,43 +49,80 @@ public class UnitController : MonoBehaviour
             spriterenderer.flipX = false;
         else
             spriterenderer.flipX = true;
+
+        if (target)
+        {
+            tryPerformAttackMove();
+        }
     }
 
     public void receiveCommand(RaycastHit2D _hit)
     {
-        //if we hit a controllable unit which does not belong to us, attack it
-        if (_hit.collider.CompareTag("Controllable") &&
+        if ((_hit.collider.CompareTag("Controllable") || _hit.collider.CompareTag("Building")) &&
           !_hit.collider.GetComponent<PhotonView>().IsMine)
         {
-            //attackTarget = _hit.collider.gameObject;
-            //issueAttack();
-            Pview.RPC("attack", RpcTarget.All, _hit.collider.gameObject);
+            target = _hit.collider.gameObject;           
         }
         else
-            //Debug.Log(_hit);
-            //attackTarget = null;
             moveTo(_hit.point);
-        //Pview.RPC("moveTo", RpcTarget.All, _hit.point);
     }
 
-    [PunRPC]
     public void moveTo(Vector2 _destination)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            agent.SetDestination(_destination);
-            stopCooldown = 1f;
-            agent.isStopped = false;
-        }
+        agent.SetDestination(_destination);
+        stopCooldown = 1f;
+        agent.isStopped = false;
+        target = null;
     }
 
-    public void attack(GameObject _target)
+    void tryPerformAttackMove()
     {
-        target = _target;
+        //when in range...start attacking
+        float distance = (target.transform.position - this.transform.position).magnitude;
+        if (distance <= range)
+        {
+            agent.isStopped = true;
+            inRange = true;
+        }
+        else //...move to the target
+        {
+            this.inRange = false;
+            moveTo(target.transform.position);
+        }
+
+        //if everything is good...trigger the attack
+        if (target && inRange && !attackOnCooldown)
+            issueAttack();
+
+    }
+    void issueAttack()
+    {
+        attackOnCooldown = true;
+
+        Vector3 projectileSpawnPos = this.transform.position +
+            Vector3.up / 2 + (target.transform.position - this.transform.position).normalized;
+
+      
+        // Attack if have an attack move
+        if (projectile)
+        {
+            GameObject projectileClone = PhotonNetwork.Instantiate("Projectiles/" + projectile.name, projectileSpawnPos, Quaternion.identity);
+            projectileClone.BroadcastMessage("attack", target);
+        }
+
+        //start timer to reset cooldown
+        StartCoroutine("attackCooldownReset");
     }
 
     private void OnDestroy()
     {
         GameController.Instance.removeFromSelection(this.gameObject);
+    }
+
+    //attack will only trigger when cooldown is "false"
+    IEnumerator attackCooldownReset()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        attackOnCooldown = false;
     }
 }
