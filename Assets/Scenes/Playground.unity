@@ -104098,8 +104098,12 @@ MonoBehaviour:
   - {fileID: 1812158492}
   - {fileID: 1669162883}
   - {fileID: 1742268498}
-  factoryShopCooldowns: []
-  cbyderCooldown: {fileID: 0}
+  factoryShopCooldowns:
+  - {fileID: 1513122251}
+  - {fileID: 44806265}
+  - {fileID: 956279966}
+  - {fileID: 1005510240}
+  cbyderCooldown: {fileID: 702754902}
   coalAmount: {fileID: 72287217}
   coalPerMinute: {fileID: 350917853}
   resultScreen: {fileID: 1806518147}
