@@ -11,6 +11,10 @@ public class ResourceManager : MonoBehaviour
     private int buildingsMax = 4; // TODO: later change to units per Player (upgrades)
     private int buildingsCurrMaster = 1;
     private int buildingsCurrClient = 1;
+    private int factoriesCurrMaster = 0;
+    private int factoriesCurrClient = 0;
+    private int breedForgesCurrMaster = 0;
+    private int breedForgesCurrClient = 0;
     private int minesMaster;
     private int minesClient;
     [SerializeField] Dictionary<string, int> pricelist = new Dictionary<string, int>();
@@ -72,6 +76,26 @@ public class ResourceManager : MonoBehaviour
 
     #region Getter and Setter
 
+    public void addFactoryToMaster() => this.factoriesCurrMaster++;
+
+    public void addFactoryToClient() => this.factoriesCurrClient++;
+
+    public int getFactories(char actor) {
+        if (actor == 'm') return this.factoriesCurrMaster;
+        else if (actor == 'c') return this.factoriesCurrClient;
+        else { Debug.LogError("Passed invalid Argument for getting Factories. Returning impossible value"); return -1; }
+    }
+
+    public void addBreedForgeToMaster() => this.breedForgesCurrMaster++;
+
+    public void addBreedForgeToClient() => this.breedForgesCurrClient++;
+
+    public int getBreedForges(char actor) {
+        if (actor == 'm') return this.breedForgesCurrMaster;
+        else if (actor == 'c') return this.breedForgesCurrClient;
+        else { Debug.LogError("Passed invalid Argument for getting Breed Forges. Returning impossible value"); return -1; }
+    }
+
     public void addBuildingToMaster() => this.buildingsCurrMaster++;
 
     public void addBuildingToClient() => this.buildingsCurrClient++;
@@ -81,18 +105,6 @@ public class ResourceManager : MonoBehaviour
     public int getBuildingsCurrClient() => this.buildingsCurrClient;
 
     public int getBuildingsMax() => this.buildingsMax;
-
-    public byte getMinesMaster() => this.minesMaster;
-
-    public byte getMinesClient() => this.minesClient;
-
-    public int getMinesMaster() {
-        return this.minesMaster;
-    }
-
-    public int getMinesClient() {
-        return this.minesClient;
-    }
 
     public int getMines(char actor) {
         if (actor == 'm') return this.minesMaster;

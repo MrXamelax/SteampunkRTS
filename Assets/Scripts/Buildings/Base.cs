@@ -12,6 +12,7 @@ public class Base : MonoBehaviour
     {
         pview = GetComponent<PhotonView>();
         isMine = pview.IsMine;
+
     }
     private void Update()
     {

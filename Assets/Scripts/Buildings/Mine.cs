@@ -16,6 +16,7 @@ public class Mine : MonoBehaviour {
 
     private bool isCaptured = false;
     private bool sendingCoal = false;
+    public int id;
 
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
@@ -146,8 +147,7 @@ public class Mine : MonoBehaviour {
         if (isCaptured) StartCoroutine(coalCycle(actor));
         else {
             ResourceManager.Instance.updMines('-', actor);
-            if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesMaster());
-            if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesClient());
+            UIManager.Instance.updMines(ResourceManager.Instance.getMines(actor));
         }
     }
 
