@@ -83,7 +83,7 @@ public class LoggingManager : MonoBehaviour {
                 break;
         }
 
-        countMilitaryUnits++;
+        if (!u.Equals("Cbyder")) countMilitaryUnits++;
         LogState("Unit spawned");
     }
 
@@ -109,7 +109,7 @@ public class LoggingManager : MonoBehaviour {
                 break;
         }
 
-        countMilitaryUnits--;
+        if (!u.Equals("Cbyder")) countMilitaryUnits--;
         LogState("Unit spawned");
     }
 
