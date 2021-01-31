@@ -16,5 +16,6 @@ public class UnitManager : MonoBehaviour
     {
         //for(int i = 5; i > 0; i-- )
         PhotonNetwork.Instantiate("Units/" + unitName, isMaster ? spawnPositionMaster.position : spawnPositionClient.position, Quaternion.identity, 0);
+        LoggingManager.Instance.AddUnit(unitName);
     }
 }

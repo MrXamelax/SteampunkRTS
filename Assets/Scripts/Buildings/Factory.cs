@@ -13,6 +13,7 @@ public class Factory : MonoBehaviour
         if (PhotonNetwork.IsMasterClient) { ResourceManager.Instance.addBuildingToMaster(); ResourceManager.Instance.addFactoryToMaster(); }
         if (!PhotonNetwork.IsMasterClient) { ResourceManager.Instance.addBuildingToClient(); ResourceManager.Instance.addFactoryToClient(); }
         pview = GetComponent<PhotonView>();
+        if (pview.IsMine) LoggingManager.Instance.LogState("Factory built");
     }
 
     private void Update()

@@ -49,15 +49,16 @@ public class Mine : MonoBehaviour {
                     StartCoroutine(coalCycle('m'));
                     Debug.Log("Sending coal to master now.");
                     ResourceManager.Instance.updMines('+', 'm');
-                    if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMines('m'));
+                    if (PhotonNetwork.IsMasterClient) { UIManager.Instance.updMines(ResourceManager.Instance.getMines('m')); LoggingManager.Instance.LogState("Coal mine Captured"); }
                 }
                 if (ownershipPoints >= captureValue) {
                     StartCoroutine(coalCycle('c'));
                     Debug.Log("Sending coal to client now.");
                     ResourceManager.Instance.updMines('+', 'c');
-                    if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMines('c'));
+                    if (!PhotonNetwork.IsMasterClient) { UIManager.Instance.updMines(ResourceManager.Instance.getMines('c')); LoggingManager.Instance.LogState("Coal mine Captured"); }
                 }
                 sendingCoal = true;
+
             }
         }
 
@@ -150,6 +151,8 @@ public class Mine : MonoBehaviour {
         else {
             ResourceManager.Instance.updMines('-', actor);
             UIManager.Instance.updMines(ResourceManager.Instance.getMines(actor));
+            if (actor == 'm' && PhotonNetwork.IsMasterClient) LoggingManager.Instance.LogState("Coal Mine lost");
+            if (actor == 'c' && !PhotonNetwork.IsMasterClient) LoggingManager.Instance.LogState("Coal Mine lost");
         }
     }
 

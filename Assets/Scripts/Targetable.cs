@@ -9,12 +9,13 @@ public class Targetable : MonoBehaviour
     [SerializeField] protected GameObject hpGreenBar;
 
     private int currentHP;
-    private bool myBase;
+    private bool myBase = false;
 
     private void Awake()
     {
         currentHP = maxHp;
         if (GetComponent<Base>() && GetComponent<PhotonView>().IsMine) myBase = true;
+        Debug.Log(myBase);
     }
 
     [PunRPC]

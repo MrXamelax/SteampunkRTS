@@ -59,21 +59,21 @@ public class LoggingManager : MonoBehaviour {
                                     this.baseHP + "\n");
     }
 
-    public void AddUnit(char u) { 
+    public void AddUnit(string u) { 
         switch (u) {
-            case 'c':
+            case "Cbyder":
                 countCbyders++;
                 break;
-            case 'd':
+            case "Deer":
                 countDeers++;
                 break;
-            case 's':
+            case "Sheep":
                 countSheeps++;
                 break;
-            case 'e':
+            case "Elephant":
                 countElephants++;
                 break;
-            case 'm':
+            case "Miner":
                 countMiners++;
                 break;
             default:
@@ -85,21 +85,21 @@ public class LoggingManager : MonoBehaviour {
         LogState("Unit spawned");
     }
 
-    public void RemoveUnit(char u) {
+    public void RemoveUnit(string u) {
         switch (u) {
-            case 'c':
+            case "Cbyder":
                 countCbyders--;
                 break;
-            case 'd':
+            case "Deer":
                 countDeers--;
                 break;
-            case 's':
+            case "Sheep":
                 countSheeps--;
                 break;
-            case 'e':
+            case "Elephant":
                 countElephants--;
                 break;
-            case 'm':
+            case "Miner":
                 countMiners--;
                 break;
             default:
@@ -108,7 +108,7 @@ public class LoggingManager : MonoBehaviour {
         }
 
         countMilitaryUnits--;
-        LogState("Unit died");
+        LogState("Unit spawned");
     }
 
     public void updBaseHp(int currentHP) {

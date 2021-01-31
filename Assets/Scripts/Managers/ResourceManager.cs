@@ -60,6 +60,7 @@ public class ResourceManager : MonoBehaviour
             if (this.coalMaster - price >= 0)
             {
                 this.coalMaster -= price;
+                if (PhotonNetwork.IsMasterClient) LoggingManager.Instance.LogState("Purchased " + unit);
                 return true;
             }
         }
@@ -68,6 +69,7 @@ public class ResourceManager : MonoBehaviour
             if (this.coalClient - price >= 0)
             {
                 this.coalClient -= price;
+                if (!PhotonNetwork.IsMasterClient) LoggingManager.Instance.LogState("Purchased " + unit);
                 return true;
             }
         }
