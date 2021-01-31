@@ -22,6 +22,7 @@ public class LoggingManager : MonoBehaviour {
     char actor;
 
     void Start() {
+        Instance = this;
         if (PhotonNetwork.IsMasterClient) {
             player = "Master";
             actor = 'm';
