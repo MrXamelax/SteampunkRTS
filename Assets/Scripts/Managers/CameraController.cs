@@ -1,4 +1,5 @@
 ﻿using Assets.Models;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,10 @@ public class CameraController : MonoBehaviour
     {
         world = GameManager.Instance.world;
         (levelPositionBottomLeft, levelPositionUpperRight) = world.getCorners();
+        if (PhotonNetwork.IsMasterClient)
+            transform.position = new Vector3(-50, 0, transform.position.z);
+        else
+            transform.position = new Vector3(50, 0, transform.position.z);
     }
     // Update is called once per frame
     void Update()
