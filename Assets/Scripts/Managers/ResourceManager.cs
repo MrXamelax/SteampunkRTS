@@ -11,8 +11,8 @@ public class ResourceManager : MonoBehaviour
     private int buildingsMax = 4; // TODO: later change to units per Player (upgrades)
     private int buildingsCurrMaster = 1;
     private int buildingsCurrClient = 1;
-    private byte minesMaster;
-    private byte minesClient;
+    private int minesMaster;
+    private int minesClient;
     [SerializeField] Dictionary<string, int> pricelist = new Dictionary<string, int>();
 
     private int coalMaster = 100;
@@ -90,12 +90,18 @@ public class ResourceManager : MonoBehaviour
         return this.buildingsMax;
     }
 
-    public byte getMinesMaster() {
+    public int getMinesMaster() {
         return this.minesMaster;
     }
 
-    public byte getMinesClient() {
+    public int getMinesClient() {
         return this.minesClient;
+    }
+
+    public int getMines(char actor) {
+        if (actor == 'm') return this.minesMaster;
+        else if (actor == 'c') return this.minesClient;
+        else { Debug.LogError("Passed wrong actor char! Returning impossible value -1"); return -1; }
     }
 
     public void updMines(char sign, char actor) {

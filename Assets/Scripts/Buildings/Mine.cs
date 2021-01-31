@@ -53,13 +53,13 @@ public class Mine : MonoBehaviour {
                     StartCoroutine(coalCycle('m'));
                     Debug.Log("Sending coal to master now.");
                     ResourceManager.Instance.updMines('+', 'm');
-                    if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesMaster());
+                    if (PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMines('m'));
                 }
                 if (ownershipPoints >= captureValue) {
                     StartCoroutine(coalCycle('c'));
                     Debug.Log("Sending coal to client now.");
                     ResourceManager.Instance.updMines('+', 'c');
-                    if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMinesClient());
+                    if (!PhotonNetwork.IsMasterClient) UIManager.Instance.updMines(ResourceManager.Instance.getMines('c'));
                 }
                 sendingCoal = true;
             }

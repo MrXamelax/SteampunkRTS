@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
         resultScreen.SetActive(true);
     }
 
-    public void updMines(byte amount)
+    public void updMines(int amount)
     {
         print("updating coal screen");
         coalPerMinute.text = (amount * 100).ToString() + "/s";
