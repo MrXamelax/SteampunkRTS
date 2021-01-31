@@ -2,6 +2,7 @@
 using Assets.Models;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -78,7 +79,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
             for (int i = 1; i < spawnPoints.Length; i++)
             {
-                PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
+                GameObject mine = PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
+                mine.BroadcastMessage("setMineID", Int32.Parse(spawnPoints[i].name));
             }
         }
         else

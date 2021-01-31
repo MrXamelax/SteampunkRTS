@@ -16,7 +16,7 @@ public class Mine : MonoBehaviour {
 
     private bool isCaptured = false;
     private bool sendingCoal = false;
-    public int id;
+    public int ID;
 
     // balancing stuff for later (maybe)
     //[SerializeField] int maxUnits = 5;
@@ -140,6 +140,8 @@ public class Mine : MonoBehaviour {
             return;
         }
     }
+
+    public void setMineID(int ID) => this.ID = ID;
 
     IEnumerator coalCycle(char actor) {
             ResourceManager.Instance.addCoal(1, actor);
