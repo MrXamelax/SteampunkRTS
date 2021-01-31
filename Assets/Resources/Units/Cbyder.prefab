@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -6696381047947555782}
   - component: {fileID: -7242681655253768276}
   - component: {fileID: 377911457454645766}
+  - component: {fileID: 4687058038089868513}
   m_Layer: 0
   m_Name: Cbyder
   m_TagString: Controllable
@@ -161,6 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 1
+  speed: 1
+  projectile: {fileID: 0}
   spriterenderer: {fileID: 3931259999346522525}
 --- !u!114 &-8695108218477983538
 MonoBehaviour:
@@ -180,7 +184,8 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 377911457454645766}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -225,6 +230,20 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!114 &4687058038089868513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6762273480990973903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 20
+  hpGreenBar: {fileID: 8828608013468803474}
 --- !u!1001 &6363701581706122309
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -307,6 +326,12 @@ PrefabInstance:
 --- !u!4 &8585084112588190114 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3419411191116883431, guid: cd5aff191371564428f9d4b73d7a007f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6363701581706122309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8828608013468803474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2510172853301081559, guid: cd5aff191371564428f9d4b73d7a007f,
     type: 3}
   m_PrefabInstance: {fileID: 6363701581706122309}
   m_PrefabAsset: {fileID: 0}

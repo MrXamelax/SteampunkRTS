@@ -671,10 +671,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 0bf4d878-b70b-42da-b530-2d969a3af1b3
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: SteampunkRTS
+  organizationId: richardpschubert
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

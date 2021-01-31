@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5929651515014890410}
   - component: {fileID: 9187105861767938674}
   - component: {fileID: -658919747865093715}
+  - component: {fileID: -864930261266332921}
   m_Layer: 0
   m_Name: HeadquaterClient
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  maxHp: 20
+  hpGreenBar: {fileID: 202475601790364263}
 --- !u!114 &9187105861767938674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +134,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0818fe585c9794097696080dfebb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!70 &-864930261266332921
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8154923805619204271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.19199912, y: -1.1668676}
+  m_Size: {x: 3.331367, y: 1.6160624}
+  m_Direction: 1
 --- !u!1001 &2313366510635261872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -224,6 +242,12 @@ PrefabInstance:
 --- !u!4 &1111978754541320791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3419411191116883431, guid: cd5aff191371564428f9d4b73d7a007f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2313366510635261872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &202475601790364263 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2510172853301081559, guid: cd5aff191371564428f9d4b73d7a007f,
     type: 3}
   m_PrefabInstance: {fileID: 2313366510635261872}
   m_PrefabAsset: {fileID: 0}
