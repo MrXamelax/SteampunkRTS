@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1683520279283109507}
   - component: {fileID: -9221391949475440860}
-  - component: {fileID: 8541851921785834860}
   - component: {fileID: 5731215680361056563}
   - component: {fileID: -976316752899382047}
   - component: {fileID: 4087400053556204044}
@@ -64,20 +63,6 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8541851921785834860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683520279283109506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 20
-  hpGreenBar: {fileID: 0}
 --- !u!114 &5731215680361056563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,10 +75,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
+  range: 3
   speed: 2
   attackCooldown: 5
-  projectile: {fileID: 0}
+  projectile: {fileID: 8898003728471412916, guid: 17847e09ad1fdbc4983692ab110233d0,
+    type: 3}
   spriterenderer: {fileID: 3038203198387143656}
 --- !u!50 &-976316752899382047
 Rigidbody2D:
@@ -135,7 +121,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.69
-  m_BaseOffset: 0.82
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 3
 --- !u!58 &713195463943298019
@@ -207,7 +193,7 @@ GameObject:
   - component: {fileID: 3038203198387143656}
   - component: {fileID: 8377170425565523310}
   m_Layer: 0
-  m_Name: Elephant
+  m_Name: ElelephantSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

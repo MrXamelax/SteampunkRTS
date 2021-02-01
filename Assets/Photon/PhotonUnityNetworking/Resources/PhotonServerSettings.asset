@@ -49,6 +49,8 @@ MonoBehaviour:
   - buyUnit
   - SetReady
   - ShowBeam
+  - ShowLumber
+  - setMineID
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

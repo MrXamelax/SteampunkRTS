@@ -15,7 +15,6 @@ public class Targetable : MonoBehaviour
     {
         currentHP = maxHp;
         if (GetComponent<Base>() && GetComponent<PhotonView>().IsMine) myBase = true;
-        Debug.Log(myBase);
     }
 
     [PunRPC]

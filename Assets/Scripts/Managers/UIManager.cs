@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour {
         }
 
         if (menus.First((m) => m.name == "BreedFactoryMenu").gameObject.activeSelf) {
-            (string, string) cooldown = currentBreedForge.GetComponent<Factory>().getCooldown();
+            (string, string) cooldown = currentBreedForge.GetComponent<BreedForge>().getCooldown();
             cbyderCooldown.text = cooldown.Item2;
         }
     }
@@ -66,22 +66,23 @@ public class UIManager : MonoBehaviour {
     }
 
     public void BuyFactoryUnitButton(string unitName) {
-        Debug.Log("Pressed UnitButton: " + unitName);
         if (currentFactory.GetComponent<Factory>().timer <= 0)
             currentFactory.GetComponent<Factory>().spawnUnit(unitName);
     }
 
     public void openBreedForgeMenu(GameObject breed) {
         currentBreedForge = breed;
+        cbyderCooldown.text = "";
         openMenu(menus.First((m) => m.name == "BreedFactoryMenu"));
     }
     public void BuyBreedForgeUnitButton(string unitName) {
-        currentBreedForge.GetComponent<BreedForge>().spawnUnit(unitName);
+        if (currentBreedForge.GetComponent<BreedForge>().timer <= 0)
+            currentBreedForge.GetComponent<BreedForge>().spawnUnit(unitName);
     }
 
 
     public void showResult(string gameResult) {
-        menus.ForEach((m) => m.SetActive(false));
+        menus?.ForEach((m) => m?.SetActive(false));
         resultText.text = "Du hast " + gameResult;
         resultScreen.SetActive(true);
     }

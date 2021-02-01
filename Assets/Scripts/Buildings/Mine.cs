@@ -3,23 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mine : MonoBehaviour {
+public class Mine : MonoBehaviour
+{
 
     // Everything below 0 = master mine
     // Everything above 0 = client mine
     [SerializeField] float ownershipPoints;
     [SerializeField] int fogOfWar;
-    [SerializeField] int unitsMaster = 0;
-    [SerializeField] int unitsClient = 0;
+    [SerializeField] public int unitsMaster = 0;
+    [SerializeField] public int unitsClient = 0;
     [SerializeField] float captureDirection = 0;
     [SerializeField] float captureRate = 0.2f;
 
     private bool isCaptured = false;
     private bool sendingCoal = false;
     public int ID;
-
-    // balancing stuff for later (maybe)
-    //[SerializeField] int maxUnits = 5;
 
     [SerializeField] protected Transform arrowTf;
     [SerializeField] protected GameObject captureBar;
@@ -30,32 +28,49 @@ public class Mine : MonoBehaviour {
 
     private PhotonView pv;
 
-    private void Awake() {
+    private void Awake()
+    {
         pv = this.gameObject.GetComponent<PhotonView>();
         barParts = captureBar.GetComponentsInChildren<Transform>();
 
-        for (int i = 1; i < barParts.Length; i++) {
+        LoggingManager.Instance.addMine(this.gameObject);
+
+        for (int i = 1; i < barParts.Length; i++)
+        {
             captureBarSize += barParts[i].localScale.x;
         }
-        captureValue = barParts[2].localScale.x/2;
+        captureValue = barParts[2].localScale.x / 2;
     }
-    void Update() {
+    void Update()
+    {
 
         // Coal mine is now captured by a side
-        if (ownershipPoints <= -captureValue || ownershipPoints >= captureValue) {
+        if (ownershipPoints <= -captureValue || ownershipPoints >= captureValue)
+        {
             isCaptured = true;
-            if (!sendingCoal) {
-                if (ownershipPoints <= -captureValue) {
+            if (!sendingCoal)
+            {
+                if (ownershipPoints <= -captureValue)
+                {
                     StartCoroutine(coalCycle('m'));
                     Debug.Log("Sending coal to master now.");
                     ResourceManager.Instance.updMines('+', 'm');
-                    if (PhotonNetwork.IsMasterClient) { UIManager.Instance.updMines(ResourceManager.Instance.getMines('m')); LoggingManager.Instance.LogState("Coal mine Captured"); }
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        UIManager.Instance.updMines(ResourceManager.Instance.getMines('m'));
+                        LoggingManager.Instance.LogState("Coal mine Captured");
+                    }
                 }
-                if (ownershipPoints >= captureValue) {
+                if (ownershipPoints >= captureValue)
+                {
                     StartCoroutine(coalCycle('c'));
                     Debug.Log("Sending coal to client now.");
                     ResourceManager.Instance.updMines('+', 'c');
-                    if (!PhotonNetwork.IsMasterClient) { UIManager.Instance.updMines(ResourceManager.Instance.getMines('c')); LoggingManager.Instance.LogState("Coal mine Captured"); }
+                    if (!PhotonNetwork.IsMasterClient)
+                    {
+                        UIManager.Instance.updMines(ResourceManager.Instance.getMines('c'));
+                        LoggingManager.Instance.LogState("Coal mine Captured");
+                    }
                 }
                 sendingCoal = true;
 
@@ -63,28 +78,39 @@ public class Mine : MonoBehaviour {
         }
 
         // Coal mine is now neutral
-        if (ownershipPoints < captureValue && ownershipPoints > -captureValue) {
+        if (ownershipPoints < captureValue && ownershipPoints > -captureValue)
+        {
             isCaptured = false;
-            if (sendingCoal) {
+            if (sendingCoal)
+            {
                 Debug.Log("Coal delivery stopped.");
                 sendingCoal = false;
             }
-            
+
         }
 
-        if (captureDirection != 0) {
-            if (ownershipPoints >= -captureBarSize / 2) {
-                if (ownershipPoints <= captureBarSize / 2) {
+        if (captureDirection != 0)
+        {
+            if (ownershipPoints >= -captureBarSize / 2)
+            {
+                if (ownershipPoints <= captureBarSize / 2)
+                {
                     arrowTf.position += new Vector3(captureRate * captureDirection * Time.deltaTime, 0, 0);
                     ownershipPoints += captureRate * captureDirection * Time.deltaTime;
-                } else {
-                    if (captureDirection < 0) {
+                }
+                else
+                {
+                    if (captureDirection < 0)
+                    {
                         arrowTf.position += new Vector3(captureRate * captureDirection * Time.deltaTime, 0, 0);
                         ownershipPoints += captureRate * captureDirection * Time.deltaTime;
                     }
                 }
-            } else {
-                if (captureDirection > 0) {
+            }
+            else
+            {
+                if (captureDirection > 0)
+                {
                     arrowTf.position += new Vector3(captureRate * captureDirection * Time.deltaTime, 0, 0);
                     ownershipPoints += captureRate * captureDirection * Time.deltaTime;
                 }
@@ -92,63 +118,94 @@ public class Mine : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D col) {
+
+    public bool IsCaptured()
+    {
+        return isCaptured;
+        //if (!isCaptured)
+        //    return false;
+
+        //return PhotonNetwork.IsMasterClient ? ownershipPoints <= -captureValue : -ownershipPoints >= captureValue;
+    }
+
+    public int getCurrentUnits()
+    {
+        return PhotonNetwork.IsMasterClient ? unitsMaster : unitsClient;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
         // Only cound units on Master Client
         if (!pv.Owner.IsMasterClient) return;
-        if (col.gameObject.tag.Equals("Controllable") && col.gameObject.name.Contains("Cbyder")) {
-            if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
+        if (col.gameObject.tag.Equals("Controllable") && col.gameObject.name.Contains("Cbyder"))
+        {
+            if (col.GetComponent<PhotonView>().Owner.IsMasterClient)
+            {
                 updateUnits(1, 'm');
-            } else {
+            }
+            else
+            {
                 updateUnits(1, 'c');
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D col) {
+    private void OnTriggerExit2D(Collider2D col)
+    {
         // Only count units on Master Client
         if (!pv.Owner.IsMasterClient) return;
 
         // Only checks objects, that are controllable by players
         Debug.Log(col.gameObject.name);
 
-        if (col.gameObject.tag.Equals("Controllable") && col.gameObject.name.Contains("Cbyder")) {
+        if (col.gameObject.tag.Equals("Controllable") && col.gameObject.name.Contains("Cbyder"))
+        {
 
             // If it is your Unit, your count is now 1 less
-            if (col.GetComponent<PhotonView>().Owner.IsMasterClient) {
+            if (col.GetComponent<PhotonView>().Owner.IsMasterClient)
+            {
                 updateUnits(-1, 'm');
 
                 // If not, your opponent has now 1 less
-            } else {
+            }
+            else
+            {
                 updateUnits(-1, 'c');
             }
         }
     }
 
-    private void updateUnits(int i, char who) {
+    private void updateUnits(int i, char who)
+    {
         if (who == 'm') unitsMaster += i;
         if (who == 'c') unitsClient += i;
 
-        if (unitsMaster == unitsClient) {
+        if (unitsMaster == unitsClient)
+        {
             captureDirection = 0;
             return;
         }
-        if (unitsMaster > unitsClient) {
+        if (unitsMaster > unitsClient)
+        {
             captureDirection = -1;
             return;
         }
-        if (unitsMaster < unitsClient) {
+        if (unitsMaster < unitsClient)
+        {
             captureDirection = 1;
             return;
         }
     }
-
+    [PunRPC]
     public void setMineID(int ID) => this.ID = ID;
 
-    IEnumerator coalCycle(char actor) {
-            ResourceManager.Instance.addCoal(1, actor);
-            yield return new WaitForSeconds(2f);
+    IEnumerator coalCycle(char actor)
+    {
+        ResourceManager.Instance.addCoal(1, actor);
+        yield return new WaitForSeconds(2f);
         if (isCaptured) StartCoroutine(coalCycle(actor));
-        else {
+        else
+        {
             ResourceManager.Instance.updMines('-', actor);
             UIManager.Instance.updMines(ResourceManager.Instance.getMines(actor));
             if (actor == 'm' && PhotonNetwork.IsMasterClient) LoggingManager.Instance.LogState("Coal Mine lost");

@@ -88,18 +88,12 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-
-
-            //RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, LayerMask.GetMask("Ground"));
-
             List<RaycastHit2D> hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity).ToList();
             RaycastHit2D buildingHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Building"));
             RaycastHit2D unitHit = hits.FirstOrDefault((h) => h.collider.CompareTag("Controllable"));
             RaycastHit2D groundHit = hits.First();
 
             RaycastHit2D hit = buildingHit ? buildingHit : unitHit ? unitHit : groundHit;
-
-            //TODO IF HIT IS ON MINIMAP -> Send units
 
             if (utils.IspointerOverUiObject())
                 return;

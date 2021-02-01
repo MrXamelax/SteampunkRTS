@@ -4,7 +4,7 @@ using UnityEngine;
 public class DeerAttack : MonoBehaviour
 {
     GameObject targetGO = null;
-    public int damage = 5;
+    public int damage = 2;
 
     PhotonView PV;
 

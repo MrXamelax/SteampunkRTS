@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             for (int i = 1; i < spawnPoints.Length; i++)
             {
                 GameObject mine = PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
-                mine.BroadcastMessage("setMineID", Int32.Parse(spawnPoints[i].name));
+                mine.GetComponent<PhotonView>().RPC("setMineID", RpcTarget.All, Int32.Parse(spawnPoints[i].name));
             }
         }
         else

@@ -9,22 +9,23 @@ public class ResourceManager : MonoBehaviour
     public static ResourceManager Instance; //Singleton. To be accessed from everywhere
 
     private int buildingsMax = 4; // TODO: later change to units per Player (upgrades)
-    private int buildingsCurrMaster = 1;
-    private int buildingsCurrClient = 1;
+    private int buildingsCurrMaster = 0;
+    private int buildingsCurrClient = 0;
     private int factoriesCurrMaster = 0;
     private int factoriesCurrClient = 0;
     private int breedForgesCurrMaster = 0;
     private int breedForgesCurrClient = 0;
-    private int minesMaster;
-    private int minesClient;
-    [SerializeField] Dictionary<string, int> pricelist = new Dictionary<string, int>();
+    private int minesMaster = 0;
+    private int minesClient = 0;
+    [SerializeField] public Dictionary<string, int> pricelist = new Dictionary<string, int>();
 
-    private int coalMaster = 125;
-    private int coalClient = 125;
+    private int coalMaster = 1250;
+    private int coalClient = 1250;
 
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         pricelist.Add("Deer", 25);
         pricelist.Add("Miner", 50);
         pricelist.Add("Elephant", 175);
@@ -32,7 +33,6 @@ public class ResourceManager : MonoBehaviour
         pricelist.Add("Cbyder", 20);
         pricelist.Add("Factory", 75);
         pricelist.Add("Breedforge", 50);
-        Instance = this;
     }
 
     public int getCoal(char actor)

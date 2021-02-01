@@ -19,7 +19,6 @@ public class CoalProjectile : MonoBehaviour
     {
         if (targetGO)
         {
-            Debug.Log(targetGO.transform.position + " :: " + transform.position);
             if (targetGO.transform.position == transform.position)
             {
                 Debug.Log("gleiche position wie ziel");
