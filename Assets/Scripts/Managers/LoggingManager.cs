@@ -67,7 +67,7 @@ public class LoggingManager : MonoBehaviour {
         string result = "";
         for (int i = 1; i < 10; i++)
         {
-            result += mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().IsCaptured()  + "," 
+            result += mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().IsCapturedBy(actor)  + "," 
                 + mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().getCurrentUnits() + ",";
         }
         return result;

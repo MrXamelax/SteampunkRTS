@@ -119,13 +119,12 @@ public class Mine : MonoBehaviour
     }
 
 
-    public bool IsCaptured()
+    public bool IsCapturedBy(char actor)
     {
-        return isCaptured;
-        //if (!isCaptured)
-        //    return false;
+        if (!isCaptured)
+            return false;
 
-        //return PhotonNetwork.IsMasterClient ? ownershipPoints <= -captureValue : -ownershipPoints >= captureValue;
+        return actor == 'm' ? ownershipPoints <= -captureValue : -ownershipPoints >= captureValue;
     }
 
     public int getCurrentUnits()
