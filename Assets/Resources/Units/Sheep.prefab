@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 20
+  range: 15
   speed: 5
   attackCooldown: 10
   projectile: {fileID: 2744548566864149729, guid: b7270549a98733d4b8e662f326fad12e,

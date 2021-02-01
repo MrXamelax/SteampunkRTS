@@ -81,10 +81,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 GameObject mine = PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
                 mine.GetComponent<PhotonView>().RPC("setMineID", RpcTarget.All, Int32.Parse(spawnPoints[i].name));
+                UnitManager.Instance.SpawnUnit(true, "Cbyder");
             }
         }
         else
         {
+            UnitManager.Instance.SpawnUnit(false, "Cbyder");
             PhotonNetwork.Instantiate("Buildings/" + "HeadquaterClient", headquaterClient.transform.position, Quaternion.identity);
             headquaterClient.SetActive(false);
         }

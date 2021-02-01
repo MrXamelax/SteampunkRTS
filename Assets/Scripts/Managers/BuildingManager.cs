@@ -37,12 +37,12 @@ public class BuildingManager : MonoBehaviour
                 if (isPlaceable && enoughCoal)
                 {
                     Debug.Log("Try to build Factory");
-                    if (PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrMaster() <= maxFactories)
+                    if (PhotonNetwork.IsMasterClient && ResourceManager.Instance.getFactories('m') <= maxFactories)
                     {
                         ResourceManager.Instance.buyUnit("Factory", actor);
                         PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
                     }
-                    if (!PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrClient() <= maxFactories)
+                    if (!PhotonNetwork.IsMasterClient && ResourceManager.Instance.getFactories('c') <= maxFactories)
                     {
                         ResourceManager.Instance.buyUnit("Factory", actor);
                         PhotonNetwork.Instantiate("Buildings/Factory", factoryGo.transform.position, Quaternion.identity);
@@ -63,17 +63,16 @@ public class BuildingManager : MonoBehaviour
                 bool isPlaceable = forgeGo.GetComponent<BuildingHover>().getPlaceble();
                 char actor = PhotonNetwork.IsMasterClient ? 'm' : 'c';
                 bool enoughCoal = ResourceManager.Instance.getCoal(actor) >= ResourceManager.Instance.pricelist["Breedforge"];
-                Debug.Log("Enough Coal ?: " + enoughCoal);
                 forgeGo.SetActive(false);
                 isForge = false;
                 if (isPlaceable && enoughCoal)
                 {
-                    if (PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrMaster() <= maxForges)
+                    if (PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBreedForges('m') <= maxForges)
                     {
                         ResourceManager.Instance.buyUnit("Breedforge", actor);
                         PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);
                     }
-                    if (!PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBuildingsCurrClient() <= maxForges)
+                    if (!PhotonNetwork.IsMasterClient && ResourceManager.Instance.getBreedForges('c') <= maxForges)
                     {
                         ResourceManager.Instance.buyUnit("Breedforge", actor);
                         PhotonNetwork.Instantiate("Buildings/BreedForge", forgeGo.transform.position, Quaternion.identity);

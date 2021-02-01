@@ -18,7 +18,7 @@ public class LoggingManager : MonoBehaviour {
     private int countElephants = 0;
     private int countMiners = 0;
     private int countMilitaryUnits = 0;
-    private int baseHP = 1000;
+    private int baseHP = 300;
     public List<GameObject> mines = new List<GameObject>();
 
     char actor;
@@ -67,8 +67,8 @@ public class LoggingManager : MonoBehaviour {
         string result = "";
         for (int i = 1; i < 10; i++)
         {
-            result += mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().IsCaptured() 
-                + "," + mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().getCurrentUnits() + ",";
+            result += mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().IsCaptured()  + "," 
+                + mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().getCurrentUnits() + ",";
         }
         return result;
     }
@@ -91,11 +91,13 @@ public class LoggingManager : MonoBehaviour {
                 countMiners++;
                 break;
             default:
-                Debug.LogError("Passed wrong unit type! Incrementing nothing");
+                Debug.LogError("Passed wrong unit type! Incrementing nothing: " + u);
                 break;
         }
 
-        if (!u.Equals("Cbyder")) countMilitaryUnits++;
+        if (!u.Equals("Cbyder")) 
+            countMilitaryUnits++;
+
         LogState("Unit spawned");
     }
 
@@ -122,7 +124,7 @@ public class LoggingManager : MonoBehaviour {
         }
 
         if (!u.Equals("Cbyder")) countMilitaryUnits--;
-        LogState("Unit spawned");
+        LogState("Unit died");
     }
 
     public void updBaseHp(int currentHP) {

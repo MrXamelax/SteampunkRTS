@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3
-  speed: 3
+  range: 4
+  speed: 5
   attackCooldown: 3
   projectile: {fileID: 5443654637078697824, guid: d92b9ffa31e14b249904c1fe7a6b0f79,
     type: 3}

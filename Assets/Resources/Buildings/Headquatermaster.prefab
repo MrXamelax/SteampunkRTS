@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1000
+  maxHp: 250
   hpGreenBar: {fileID: 202475601790364263}
 --- !u!114 &9187105861767938674
 MonoBehaviour:

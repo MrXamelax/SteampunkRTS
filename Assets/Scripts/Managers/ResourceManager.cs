@@ -8,9 +8,6 @@ public class ResourceManager : MonoBehaviour
 
     public static ResourceManager Instance; //Singleton. To be accessed from everywhere
 
-    private int buildingsMax = 4; // TODO: later change to units per Player (upgrades)
-    private int buildingsCurrMaster = 0;
-    private int buildingsCurrClient = 0;
     private int factoriesCurrMaster = 0;
     private int factoriesCurrClient = 0;
     private int breedForgesCurrMaster = 0;
@@ -19,8 +16,8 @@ public class ResourceManager : MonoBehaviour
     private int minesClient = 0;
     [SerializeField] public Dictionary<string, int> pricelist = new Dictionary<string, int>();
 
-    private int coalMaster = 1250;
-    private int coalClient = 1250;
+    private int coalMaster = 125;
+    private int coalClient = 125;
 
     // Start is called before the first frame update
     void Start()
@@ -97,16 +94,6 @@ public class ResourceManager : MonoBehaviour
         else if (actor == 'c') return this.breedForgesCurrClient;
         else { Debug.LogError("Passed invalid Argument for getting Breed Forges. Returning impossible value"); return -1; }
     }
-
-    public void addBuildingToMaster() => this.buildingsCurrMaster++;
-
-    public void addBuildingToClient() => this.buildingsCurrClient++;
-    
-    public int getBuildingsCurrMaster() => this.buildingsCurrMaster;
-    
-    public int getBuildingsCurrClient() => this.buildingsCurrClient;
-
-    public int getBuildingsMax() => this.buildingsMax;
 
     public int getMines(char actor) {
         if (actor == 'm') return this.minesMaster;

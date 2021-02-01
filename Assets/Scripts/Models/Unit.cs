@@ -12,13 +12,6 @@ public class Unit : MonoBehaviour, IPunInstantiateMagicCallback {
     }
 
     private void OnDestroy() {
-        if (gameObject.name.Contains("Cbyder")) unit = "Cbyder";
-        if (gameObject.name.Contains("Sheep")) unit = "Sheep";
-        if (gameObject.name.Contains("Miner")) unit = "Miner";
-        if (gameObject.name.Contains("Elephant")) unit = "Elephant";
-        if (gameObject.name.Contains("Deer")) unit = "Deer";
-
-        LoggingManager.Instance.RemoveUnit(unit);
         GameManager.Instance.units.Remove(this.gameObject);
     }
 }

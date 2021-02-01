@@ -53,7 +53,6 @@ public class CoalProjectile : MonoBehaviour
             PhotonView otherPV = PhotonView.Get(other);
             if (otherPV.IsMine)
                 return;
-            Debug.Log("We hit Enemy: " + other);
             otherPV.RPC("takeDMG", RpcTarget.All, this.damage);
         }
         if(this)

@@ -10,8 +10,12 @@ class BreedForge : MonoBehaviour{
     PhotonView pview;
 
     private void Awake() {
-        if (PhotonNetwork.IsMasterClient) { ResourceManager.Instance.addBuildingToMaster(); ResourceManager.Instance.addBreedForgeToMaster(); }
-        if (!PhotonNetwork.IsMasterClient) { ResourceManager.Instance.addBuildingToClient(); ResourceManager.Instance.addBreedForgeToClient(); }
+        if (PhotonNetwork.IsMasterClient) { 
+            ResourceManager.Instance.addBreedForgeToMaster(); 
+        }
+        if (!PhotonNetwork.IsMasterClient) { 
+            ResourceManager.Instance.addBreedForgeToClient();
+        }
         pview = GetComponent<PhotonView>();
         if (pview.IsMine) LoggingManager.Instance.LogState("Breed Forge built");
     }

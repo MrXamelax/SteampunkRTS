@@ -107255,8 +107255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1793089057}
-  movementSpeed: 30
-  scrollingSpeed: 4
+  movementSpeed: 60
+  scrollingSpeed: 5
   zoomMin: 8
   zoomMax: 20
   mouseDetect: 10

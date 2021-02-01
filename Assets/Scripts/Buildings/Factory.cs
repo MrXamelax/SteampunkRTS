@@ -10,8 +10,8 @@ public class Factory : MonoBehaviour
     public float timer = 0;
     PhotonView pview;
     private void Awake() {
-        if (PhotonNetwork.IsMasterClient) { ResourceManager.Instance.addBuildingToMaster(); ResourceManager.Instance.addFactoryToMaster(); }
-        if (!PhotonNetwork.IsMasterClient) { ResourceManager.Instance.addBuildingToClient(); ResourceManager.Instance.addFactoryToClient(); }
+        if (PhotonNetwork.IsMasterClient) ResourceManager.Instance.addFactoryToMaster(); 
+        if (!PhotonNetwork.IsMasterClient) ResourceManager.Instance.addFactoryToClient(); 
         pview = GetComponent<PhotonView>();
         if (pview.IsMine) LoggingManager.Instance.LogState("Factory built");
     }

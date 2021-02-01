@@ -99,7 +99,6 @@ public class GameController : MonoBehaviour
                 return;
             if (hit && controlledUnits.Count != 0)
             {
-                Debug.Log(hit.collider.gameObject.name);
                 controlledUnits.ForEach((unit) => unit.BroadcastMessage("receiveCommand", hit));
             }
         }
