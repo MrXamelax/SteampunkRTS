@@ -119,7 +119,7 @@ public class LoggingManager : MonoBehaviour {
                 countMiners--;
                 break;
             default:
-                Debug.LogError("Passed wrong unit type! Decrementing nothing");
+                Debug.LogError("Passed wrong unit type! '"+ u + "'Decrementing nothing");
                 break;
         }
 

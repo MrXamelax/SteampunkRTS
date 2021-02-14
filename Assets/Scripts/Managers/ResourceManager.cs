@@ -8,6 +8,9 @@ public class ResourceManager : MonoBehaviour
 
     public static ResourceManager Instance; //Singleton. To be accessed from everywhere
 
+    [SerializeField] protected float incomeCooldown = 3f;
+    [SerializeField] protected int income = 1;
+
     private int factoriesCurrMaster = 0;
     private int factoriesCurrClient = 0;
     private int breedForgesCurrMaster = 0;
@@ -19,17 +22,29 @@ public class ResourceManager : MonoBehaviour
     private int coalMaster = 125;
     private int coalClient = 125;
 
+    private bool incomeOnCooldown = false;
+
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
         pricelist.Add("Deer", 25);
         pricelist.Add("Miner", 50);
-        pricelist.Add("Elephant", 175);
-        pricelist.Add("Sheep", 75);
-        pricelist.Add("Cbyder", 20);
+        pricelist.Add("Elephant", 150);
+        pricelist.Add("Sheep", 65);
+        pricelist.Add("Cbyder", 12);
         pricelist.Add("Factory", 75);
         pricelist.Add("Breedforge", 50);
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.lobbyReady && !incomeOnCooldown)
+        {
+            addCoal(income, PhotonNetwork.IsMasterClient ? 'm' : 'c');
+            incomeOnCooldown = true;
+            StartCoroutine("incomeCooldownReset");
+        }
     }
 
     public int getCoal(char actor)
@@ -46,7 +61,6 @@ public class ResourceManager : MonoBehaviour
         if (actor == 'c') this.coalClient += coal;
     }
 
-    [PunRPC]
     public bool buyUnit(string unit, char actor)
     {
         int price = pricelist?[unit] ?? 0;
@@ -114,6 +128,12 @@ public class ResourceManager : MonoBehaviour
             if (sign == '+') minesClient++;
             else if (sign == '-') minesClient--;
         }
+    }
+
+    IEnumerator incomeCooldownReset()
+    {
+        yield return new WaitForSeconds(incomeCooldown);
+        incomeOnCooldown = false;
     }
     #endregion
 }

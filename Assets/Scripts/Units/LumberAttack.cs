@@ -5,6 +5,7 @@ using UnityEngine;
 public class LumberAttack : MonoBehaviour
 {
     public int damage = 5;
+    [SerializeField] protected float range = 10;
 
     PhotonView PV;
     public SpriteRenderer LumberRend;
@@ -52,7 +53,7 @@ public class LumberAttack : MonoBehaviour
     private void ShowLumber(Vector3 targetPosition, Vector3 startPosition)
     {
         LumberRend.color = new Color(0, 0, 0, (1f - 1 * attackTimer) / 2);
-        this.transform.localScale = new Vector3(4f - 4 * attackTimer, 4f - 4 * attackTimer, 0);
+        this.transform.localScale = new Vector3(range - range * attackTimer, range - range * attackTimer, 0);
     }
 
     public void attack(GameObject _targetToAttack)

@@ -1,18 +1,26 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Marker : MonoBehaviour
 {
     Renderer myRenderer;
-    [SerializeField] Color colorMaster;
-    [SerializeField] Color colorClient;
-
+    [SerializeField] protected Color unitColor;
+    [SerializeField] protected Color enemyColor;
+    PhotonView Pview;
 
     // Start is called before the first frame update
     void Start()
     {
-        TryGetComponent<Renderer>(out myRenderer);
+        myRenderer = GetComponent<Renderer>();
+
+        Pview = PhotonView.Get(this);
+
+        if (Pview.IsMine)
+            myRenderer.material.SetColor("_Color", unitColor);
+        else
+            myRenderer.material.SetColor("_Color", enemyColor);
     }
 
     //"interface", to be called from external function
@@ -26,7 +34,7 @@ public class Marker : MonoBehaviour
     {
        //Debug.Log("Deselected " + this.name);
         if (myRenderer)
-        myRenderer.material.SetColor("_Color", Color.white);
+        myRenderer.material.SetColor("_Color", unitColor);
     }
 
 

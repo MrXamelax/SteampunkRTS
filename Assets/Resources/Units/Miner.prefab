@@ -104,9 +104,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.17210793, y: 0.15224934}
+  m_Offset: {x: -0.17210793, y: 0.08732891}
   serializedVersion: 2
-  m_Radius: 0.5742291
+  m_Radius: 0.63914955
 --- !u!195 &1796758279675178709
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -186,7 +186,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  speed: 3
+  speed: 4
+  attackOnCooldown: 0
   attackCooldown: 4
   projectile: {fileID: 6680881628520771989, guid: 32c6495212ab4de43834d1ff85052768,
     type: 3}
@@ -215,8 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de15f454dc109ea48aac5c06a7681ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorMaster: {r: 0, g: 0, b: 0, a: 0}
-  colorClient: {r: 0, g: 0, b: 0, a: 0}
+  unitColor: {r: 1, g: 1, b: 1, a: 1}
+  enemyColor: {r: 0.59607846, g: 0.18039216, b: 0.21960784, a: 1}
 --- !u!114 &1352942677321853372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
+  maxHp: 25
   hpGreenBar: {fileID: 8993069281085520010}
 --- !u!1001 &6780204647761218909
 PrefabInstance:

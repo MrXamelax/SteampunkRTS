@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        roomNameLabel.text = PhotonNetwork.CurrentRoom.Name;
         if (!initialized && PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
             SetUp();
@@ -70,8 +71,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SetUp()
     {
-        roomNameLabel.text = PhotonNetwork.CurrentRoom.Name;
-
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate("Buildings/" + "Headquatermaster", headquaterMaster.transform.position, Quaternion.identity);

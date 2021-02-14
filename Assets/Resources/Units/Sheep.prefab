@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5222157557797210335
+--- !u!1 &5877034105262508842
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8785884856292063763}
-  - component: {fileID: 2744590439783879515}
-  - component: {fileID: 8012336267248307497}
+  - component: {fileID: 864848708154847203}
+  - component: {fileID: 6173764695434657117}
+  - component: {fileID: 606350233721895784}
+  - component: {fileID: 5807342785183147862}
+  - component: {fileID: 1281671757198089588}
+  - component: {fileID: 2165389410811723860}
+  - component: {fileID: 1774787228064359068}
+  - component: {fileID: 622805801572867227}
+  - component: {fileID: -2968882797383636651}
+  - component: {fileID: -296718320253200947}
+  - component: {fileID: 4844411737187637514}
   m_Layer: 0
   m_Name: Sheep
-  m_TagString: Untagged
+  m_TagString: Controllable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8785884856292063763
+--- !u!4 &864848708154847203
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5222157557797210335}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 5877034105262508842}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 864848708154847203}
-  m_RootOrder: 1
+  m_Children:
+  - {fileID: 7155100615908078684}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2744590439783879515
+--- !u!212 &6173764695434657117
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5222157557797210335}
+  m_GameObject: {fileID: 5877034105262508842}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -76,66 +85,12 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 1.4285715, y: 1.4285715}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8012336267248307497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5222157557797210335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de15f454dc109ea48aac5c06a7681ab7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorMaster: {r: 0, g: 0, b: 0, a: 0}
-  colorClient: {r: 0, g: 0, b: 0, a: 0}
---- !u!1 &5877034105262508842
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 864848708154847203}
-  - component: {fileID: 606350233721895784}
-  - component: {fileID: 5807342785183147862}
-  - component: {fileID: 1281671757198089588}
-  - component: {fileID: 2165389410811723860}
-  - component: {fileID: 1774787228064359068}
-  - component: {fileID: 622805801572867227}
-  - component: {fileID: -2968882797383636651}
-  - component: {fileID: -296718320253200947}
-  m_Layer: 0
-  m_Name: Sheep
-  m_TagString: Controllable
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &864848708154847203
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5877034105262508842}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7155100615908078684}
-  - {fileID: 8785884856292063763}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &606350233721895784
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -149,9 +104,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.047326088, y: -0.06507349}
+  m_Offset: {x: 0.047326088, y: -0.017789721}
   serializedVersion: 2
-  m_Radius: 0.59181356
+  m_Radius: 0.74627423
 --- !u!195 &5807342785183147862
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -230,12 +185,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8b869200649a44b9150a58f818e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 15
-  speed: 5
+  range: 10
+  speed: 3
+  attackOnCooldown: 0
   attackCooldown: 10
   projectile: {fileID: 2744548566864149729, guid: b7270549a98733d4b8e662f326fad12e,
     type: 3}
-  spriterenderer: {fileID: 2744590439783879515}
+  spriterenderer: {fileID: 6173764695434657117}
 --- !u!114 &622805801572867227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +233,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 25
   hpGreenBar: {fileID: 7993285347418285164}
+--- !u!114 &4844411737187637514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5877034105262508842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de15f454dc109ea48aac5c06a7681ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitColor: {r: 1, g: 1, b: 1, a: 1}
+  enemyColor: {r: 0.5943396, g: 0.17661978, b: 0.21723148, a: 1}
 --- !u!1001 &5492199416714842555
 PrefabInstance:
   m_ObjectHideFlags: 0

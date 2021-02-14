@@ -10,8 +10,8 @@ public class UnitManager : MonoBehaviour
     {
         Instance = this;
     }
-    public void SpawnUnit(bool isMaster, string unitName)
+    public GameObject SpawnUnit(bool isMaster, string unitName)
     {
-        PhotonNetwork.Instantiate("Units/" + unitName, isMaster ? spawnPositionMaster.position : spawnPositionClient.position, Quaternion.identity, 0);
+        return PhotonNetwork.Instantiate("Units/" + unitName, isMaster ? spawnPositionMaster.position : spawnPositionClient.position, Quaternion.identity, 0);
     }
 }

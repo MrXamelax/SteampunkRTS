@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 62ef6e0c29488d3499df7a3c6ca6f233, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 4.5, y: 4.99}
@@ -104,9 +104,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.022406787, y: -0.10082972}
+  m_Offset: {x: -0.022406816, y: 0.006303191}
   serializedVersion: 2
-  m_Radius: 0.43568444
+  m_Radius: 0.6285236
 --- !u!195 &8392099500320547301
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 4
   speed: 5
+  attackOnCooldown: 0
   attackCooldown: 3
   projectile: {fileID: 5443654637078697824, guid: d92b9ffa31e14b249904c1fe7a6b0f79,
     type: 3}
@@ -215,8 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de15f454dc109ea48aac5c06a7681ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorMaster: {r: 0, g: 0, b: 0, a: 0}
-  colorClient: {r: 0, g: 0, b: 0, a: 0}
+  unitColor: {r: 1, g: 1, b: 1, a: 1}
+  enemyColor: {r: 0.59607846, g: 0.18039216, b: 0.21960784, a: 1}
 --- !u!114 &9088131860864685684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3459410221ee9c2439b25007928d1539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 15
+  maxHp: 20
   hpGreenBar: {fileID: 7297253731462309318}
 --- !u!1001 &5156869453859950609
 PrefabInstance:

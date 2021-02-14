@@ -9,15 +9,18 @@ public class UnitController : MonoBehaviour
     [NonSerialized] public PhotonView Pview;
     public int range = 1;
     public int speed = 1;
-    bool attackOnCooldown = false;
+    public bool attackOnCooldown = false;
     [SerializeField] protected float attackCooldown = 1f;
 
     public GameObject projectile;
     NavMeshAgent agent;
     [SerializeField] protected SpriteRenderer spriterenderer;
+
     float stopCooldown = 0;
     private GameObject target;
     bool inRange = false;
+    bool defaultFlip;
+
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class UnitController : MonoBehaviour
 
         agent.speed = speed;
 
+        defaultFlip = spriterenderer.flipX;
         //agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
@@ -46,9 +50,9 @@ public class UnitController : MonoBehaviour
         } 
 
         if (agent.pathEndPosition.x > transform.position.x)
-            spriterenderer.flipX = false;
+            spriterenderer.flipX = !defaultFlip;
         else
-            spriterenderer.flipX = true;
+            spriterenderer.flipX = defaultFlip;
 
         if (target)
         {
@@ -61,10 +65,13 @@ public class UnitController : MonoBehaviour
         if ((_hit.collider.CompareTag("Controllable") || _hit.collider.CompareTag("Building")) &&
           !_hit.collider.GetComponent<PhotonView>().IsMine)
         {
-            target = _hit.collider.gameObject;           
+            target = _hit.collider.gameObject;
         }
         else
+        {
             moveTo(_hit.point);
+            target = null;
+        }
     }
 
     public void moveTo(Vector2 _destination)
@@ -72,7 +79,6 @@ public class UnitController : MonoBehaviour
         agent.SetDestination(_destination);
         stopCooldown = 1f;
         agent.isStopped = false;
-        target = null;
     }
 
     void tryPerformAttackMove()
@@ -106,8 +112,10 @@ public class UnitController : MonoBehaviour
         // Attack if have an attack move
         if (projectile)
         {
-            GameObject projectileClone = PhotonNetwork.Instantiate("Projectiles/" + projectile.name, projectileSpawnPos, Quaternion.identity);
+            GameObject projectileClone = PhotonNetwork.Instantiate("Projectiles/" + projectile.name, this.transform.position, Quaternion.identity);
             projectileClone.BroadcastMessage("attack", target);
+            if(name.Contains("Sheep")) projectileClone.BroadcastMessage("SetSheep", this.gameObject);
+
         }
 
         //start timer to reset cooldown

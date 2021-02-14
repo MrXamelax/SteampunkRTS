@@ -104,8 +104,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0014499776, y: 0.04247311}
-  m_Size: {x: 0.7828997, y: 0.41506165}
+  m_Offset: {x: 0.009245794, y: 0.0833993}
+  m_Size: {x: 0.9855886, y: 0.5904673}
   m_Direction: 1
 --- !u!50 &-8415384221724538152
 Rigidbody2D:
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 0
   speed: 7
+  attackOnCooldown: 0
   attackCooldown: 1
   projectile: {fileID: 0}
   spriterenderer: {fileID: 3931259999346522525}
@@ -214,8 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de15f454dc109ea48aac5c06a7681ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorMaster: {r: 0, g: 0, b: 0, a: 0}
-  colorClient: {r: 0, g: 0, b: 0, a: 0}
+  unitColor: {r: 1, g: 1, b: 1, a: 1}
+  enemyColor: {r: 0.59607846, g: 0.18039216, b: 0.21960784, a: 1}
 --- !u!114 &377911457454645766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +322,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: hpBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6588316365083222712, guid: cd5aff191371564428f9d4b73d7a007f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd5aff191371564428f9d4b73d7a007f, type: 3}

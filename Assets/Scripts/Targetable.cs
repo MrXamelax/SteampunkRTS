@@ -17,9 +17,8 @@ public class Targetable : MonoBehaviour
 
         if (GetComponent<PhotonView>().IsMine)
         {
-            if (unit == "")
-                getUnitFromName();
-            LoggingManager.Instance.AddUnit(unit);
+            getUnitFromName();
+            if (unit != "") LoggingManager.Instance.RemoveUnit(unit);
         }
     }
 
@@ -40,10 +39,8 @@ public class Targetable : MonoBehaviour
         if(GetComponent<Base>())
             GameManager.Instance.GameOver(GetComponent<PhotonView>().IsMine);
 
-        if (GetComponent<PhotonView>().IsMine)
-        {
-            if (unit == "")
-                getUnitFromName();
+        if (unit != "" && GetComponent<PhotonView>().IsMine)
+        {   
             LoggingManager.Instance.RemoveUnit(unit);
         }
         Destroy(this.gameObject); 
