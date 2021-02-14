@@ -54,14 +54,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        waitingForPlayer.SetActive(true);
         Instance = this;
         world = new World(ground: ground, walls: wall, wall: walls);
+        if (PhotonNetwork.IsConnected)
+            waitingForPlayer.SetActive(true);
+        else
+        {
+            lobbyReady = true;
+            palyercamera.SetActive(true);
+        }        
     }
 
     private void Update()
     {
-        if (!initialized && PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        if (!initialized && PhotonNetwork.IsConnected && PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
             SetUp();
             initialized = true;
@@ -125,7 +131,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Public Methods
 
     // Leave the Room, called by Leave Button, or after match has ended maybe ?
-    public void LeaveRoom() => PhotonNetwork.LeaveRoom();
+    public void LeaveRoom() { if(PhotonNetwork.IsConnected) PhotonNetwork.LeaveRoom(); }
 
     public void Loadlauncher() => SceneManager.LoadScene(0);
 
