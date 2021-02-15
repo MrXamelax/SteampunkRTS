@@ -42,6 +42,7 @@ public class ResourceManager : MonoBehaviour
         if (GameManager.Instance.lobbyReady && !incomeOnCooldown)
         {
             addCoal(income, PhotonNetwork.IsMasterClient ? 'm' : 'c');
+            Debug.Log("Adding coal for your hard work");
             incomeOnCooldown = true;
             StartCoroutine("incomeCooldownReset");
         }
@@ -87,6 +88,12 @@ public class ResourceManager : MonoBehaviour
         return false;
     }
 
+    IEnumerator incomeCooldownReset()
+    {
+        yield return new WaitForSeconds(incomeCooldown);
+        incomeOnCooldown = false;
+    }
+
     #region Getter and Setter
 
     public void addFactoryToMaster() => this.factoriesCurrMaster++;
@@ -128,12 +135,6 @@ public class ResourceManager : MonoBehaviour
             if (sign == '+') minesClient++;
             else if (sign == '-') minesClient--;
         }
-    }
-
-    IEnumerator incomeCooldownReset()
-    {
-        yield return new WaitForSeconds(incomeCooldown);
-        incomeOnCooldown = false;
     }
     #endregion
 }

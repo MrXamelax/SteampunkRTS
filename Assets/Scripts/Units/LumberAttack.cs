@@ -43,10 +43,9 @@ public class LumberAttack : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!PV?.IsMine ?? false)
-            return;
-        if (collision.GetComponent<Targetable>() && !collision.GetComponent<PhotonView>().IsMine)
-            targets.Remove(collision.gameObject);
+        if (PV?.IsMine ?? false)
+            if (collision.GetComponent<Targetable>() && !collision.GetComponent<PhotonView>().IsMine)
+                targets.Remove(collision.gameObject);
     }
 
     [PunRPC]

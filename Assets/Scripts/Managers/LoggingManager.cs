@@ -67,13 +67,19 @@ public class LoggingManager : MonoBehaviour {
         string result = "";
         for (int i = 1; i < 10; i++)
         {
-            result += mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().IsCapturedBy(actor)  + "," 
+            result += mines.First(
+                (m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().IsCapturedBy(actor)  
+                + "," 
                 + mines.First((m) => m.GetComponent<Mine>().ID == i).GetComponent<Mine>().getCurrentUnits() + ",";
         }
         return result;
     }
 
-    public void AddUnit(string u) { 
+    public void AddUnit(string u) {
+        if (u == null || u == "")
+            return;
+        if (u == null)
+            return;
         switch (u) {
             case "Cbyder":
                 countCbyders++;
@@ -102,6 +108,9 @@ public class LoggingManager : MonoBehaviour {
     }
 
     public void RemoveUnit(string u) {
+        if (u == null || u == "")
+            return;
+
         switch (u) {
             case "Cbyder":
                 countCbyders--;
@@ -119,7 +128,7 @@ public class LoggingManager : MonoBehaviour {
                 countMiners--;
                 break;
             default:
-                Debug.LogError("Passed wrong unit type! '"+ u + "'Decrementing nothing");
+                Debug.LogError("Passed wrong unit type! Decrementing nothing");
                 break;
         }
 

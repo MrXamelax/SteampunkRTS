@@ -26,9 +26,9 @@ public class CameraController : MonoBehaviour
         world = GameManager.Instance.world;
         (levelPositionBottomLeft, levelPositionUpperRight) = world.getCorners();
         if (PhotonNetwork.IsMasterClient)
-            transform.position = new Vector3(-50, 0, transform.position.z);
+            cam.transform.position = new Vector3(-50, 0, transform.position.z);
         else
-            transform.position = new Vector3(50, 0, transform.position.z);
+            cam.transform.position = new Vector3(50, 0, transform.position.z);
     }
     // Update is called once per frame
     void Update()
@@ -61,8 +61,8 @@ public class CameraController : MonoBehaviour
 
         cam.orthographicSize -= mouseScroll;
 
-        moveY = getScrollFactor(transform.position.y, mouseScroll, height, levelPositionBottomLeft.y, levelPositionUpperRight.y);
-        moveX = getScrollFactor(transform.position.x, mouseScroll, width, levelPositionBottomLeft.x, levelPositionUpperRight.x);
+        moveY = getScrollFactor(cam.transform.position.y, mouseScroll, height, levelPositionBottomLeft.y, levelPositionUpperRight.y);
+        moveX = getScrollFactor(cam.transform.position.x, mouseScroll, width, levelPositionBottomLeft.x, levelPositionUpperRight.x);
 
         
 

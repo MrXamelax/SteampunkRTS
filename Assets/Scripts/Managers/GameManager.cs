@@ -29,13 +29,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool lobbyReady = false;
 
     public World world;
-    [SerializeField] protected GameObject palyercamera;
+    [SerializeField] protected GameObject cameraController;
     [SerializeField] protected Tilemap walls;
     [SerializeField] protected Tilemap ground;
     [SerializeField] protected TileBase wall;
     [SerializeField] protected GameObject spawnPointsObj;
     [SerializeField] protected GameObject headquaterMaster;
     [SerializeField] protected GameObject headquaterClient;
+    [SerializeField] protected GameObject FogOfWarCircles;
+    [SerializeField] protected GameObject FogOfWarBase;
 
     public List<GameObject> units = new List<GameObject>();
     private Transform[] spawnPoints;
@@ -57,15 +59,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         waitingForPlayer.SetActive(true);
         Instance = this;
         world = new World(ground: ground, walls: wall, wall: walls);
+        if (roomNameLabel)
+            roomNameLabel.text = PhotonNetwork.CurrentRoom.Name;
     }
 
     private void Update()
     {
-        roomNameLabel.text = PhotonNetwork.CurrentRoom.Name;
         if (!initialized && PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
-            SetUp();
             initialized = true;
+            SetUp();
         }
     }
 
@@ -73,12 +76,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate("Buildings/" + "Headquatermaster", headquaterMaster.transform.position, Quaternion.identity);
+
+            GameObject masterBase = PhotonNetwork.Instantiate("Buildings/" + "Headquatermaster", headquaterMaster.transform.position, Quaternion.identity);
+            GameObject newCircles = Instantiate(FogOfWarBase, new Vector3(masterBase.transform.position.x -5 , masterBase.transform.position.y, masterBase.transform.position.z), Quaternion.identity);
+            newCircles.transform.parent = masterBase.transform;
             headquaterMaster.SetActive(false);
-            Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
+            //Debug.Log("Now spawning " + (spawnPoints.Length - 1) + " coal mines.");
             for (int i = 1; i < spawnPoints.Length; i++)
             {
                 GameObject mine = PhotonNetwork.Instantiate("Buildings/" + this.coalMinePrefab.name, spawnPoints[i].position, Quaternion.identity);
+                Debug.Log("Spawn Mine: " + i);
                 mine.GetComponent<PhotonView>().RPC("setMineID", RpcTarget.All, Int32.Parse(spawnPoints[i].name));
             }
             UnitManager.Instance.SpawnUnit(true, "Cbyder");
@@ -86,10 +93,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
         {
             UnitManager.Instance.SpawnUnit(false, "Cbyder");
-            PhotonNetwork.Instantiate("Buildings/" + "HeadquaterClient", headquaterClient.transform.position, Quaternion.identity);
+            GameObject clientBase = PhotonNetwork.Instantiate("Buildings/" + "HeadquaterClient", headquaterClient.transform.position, Quaternion.identity);
+            GameObject newCircles = Instantiate(FogOfWarBase, new Vector3(clientBase.transform.position.x + 5, clientBase.transform.position.y, clientBase.transform.position.z), Quaternion.identity);
+            newCircles.transform.parent = clientBase.transform;
             headquaterClient.SetActive(false);
         }
-        palyercamera.SetActive(true);
+        cameraController.SetActive(true);
         SetReady();
     }
     #endregion

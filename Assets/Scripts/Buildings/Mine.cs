@@ -28,6 +28,8 @@ public class Mine : MonoBehaviour
 
     private PhotonView pv;
 
+    public GameObject fogOfWarCircles;
+
     private void Awake()
     {
         pv = this.gameObject.GetComponent<PhotonView>();
@@ -57,6 +59,7 @@ public class Mine : MonoBehaviour
                     ResourceManager.Instance.updMines('+', 'm');
                     if (PhotonNetwork.IsMasterClient)
                     {
+                        fogOfWarCircles.SetActive(true);
                         UIManager.Instance.updMines(ResourceManager.Instance.getMines('m'));
                         LoggingManager.Instance.LogState("Coal mine Captured");
                     }
@@ -68,12 +71,12 @@ public class Mine : MonoBehaviour
                     ResourceManager.Instance.updMines('+', 'c');
                     if (!PhotonNetwork.IsMasterClient)
                     {
+                        fogOfWarCircles.SetActive(true);
                         UIManager.Instance.updMines(ResourceManager.Instance.getMines('c'));
                         LoggingManager.Instance.LogState("Coal mine Captured");
                     }
                 }
                 sendingCoal = true;
-
             }
         }
 
@@ -83,6 +86,7 @@ public class Mine : MonoBehaviour
             isCaptured = false;
             if (sendingCoal)
             {
+                fogOfWarCircles.SetActive(false);
                 Debug.Log("Coal delivery stopped.");
                 sendingCoal = false;
             }

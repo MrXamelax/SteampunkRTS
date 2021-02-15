@@ -40,19 +40,21 @@ public class CoalProjectile : MonoBehaviour
     //triggered it we collide with something
     private void OnTriggerEnter2D(Collider2D other)
     {
-        hitEvaluation(other.gameObject);
+        if (PV?.IsMine ?? false)
+            hitEvaluation(other.gameObject);
     }
 
     private void hitEvaluation(GameObject other)
     {
-        if (!PV?.IsMine ?? false) return;
-
         var targetableScript = other.GetComponent<Targetable>();
         if (targetableScript)
         {
             PhotonView otherPV = PhotonView.Get(other);
             if (otherPV.IsMine)
                 return;
+
+            Debug.Log("Hit enemy? : " + other.name);
+
             otherPV.RPC("takeDMG", RpcTarget.All, this.damage);
         }
         if(this)

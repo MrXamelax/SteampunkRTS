@@ -21,8 +21,8 @@ TagManager:
   - Ground
   - MiniMapObject
   - Unit
-  - 
-  - 
+  - FogOfWarMain
+  - FogOfWarSecondary
   - 
   - 
   - 
@@ -62,4 +62,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1302692835
+    locked: 0
+  - name: FogOfWar
+    uniqueID: 1941773257
     locked: 0
